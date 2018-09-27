@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  MyPlaces
 //
-//  Created by Laura Llunell on 22/9/18.
+//  Created by Marta Boteller on 22/9/18.
 //  Copyright © 2018 Marta Boteller. All rights reserved.
 //
 
@@ -15,7 +15,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        //create singleton instance of ManagerPlaces
+        let manager = ManagerPlaces.shared
+        
+        //get images and data to test with
+        let image1 = UIImage(named:"lakeMoraine.png")
+        let image2 = UIImage(named:"cadaques.png")
+        let image3 = UIImage(named:"rialtoVenecia.png")
+        let data1 = image1?.pngData()
+        let data2 = image2?.pngData()
+        let data3 = image3?.pngData()
+    
+        
+        var pl = Place(name:"Lake Moraine",description:"Llac de muntanya localitzat al Parc Nacional de Banff, a Alberta, Canadà.",image_in:data1)
+        manager.append(pl)
+        
+        pl = Place(name:"Cadaqués",description:"Poble més oriental de la península ibèrica a la comarca de l'Alt Empordà, Girona",image_in:data2)
+        manager.append(pl)
+        
+        pl = Place(name:"Venecia",description:"Ciutat italiana amb centre històric declarat patrimoni de la humanitat per l'UNESCO",image_in:data3)
+        manager.append(pl)
+        
         return true
     }
 

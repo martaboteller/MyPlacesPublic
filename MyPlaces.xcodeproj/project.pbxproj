@@ -7,18 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D329B29E215D4DC200DE4D36 /* cadaques.png in Resources */ = {isa = PBXBuildFile; fileRef = D329B29D215D4DC200DE4D36 /* cadaques.png */; };
+		D329B2A0215D4DC900DE4D36 /* lakeMoraine.png in Resources */ = {isa = PBXBuildFile; fileRef = D329B29F215D4DC800DE4D36 /* lakeMoraine.png */; };
+		D329B2A2215D4DCE00DE4D36 /* rialtoVenecia.png in Resources */ = {isa = PBXBuildFile; fileRef = D329B2A1215D4DCE00DE4D36 /* rialtoVenecia.png */; };
 		D3428A1221562ECB00E94235 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3428A1121562ECB00E94235 /* AppDelegate.swift */; };
 		D3428A1421562ECB00E94235 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3428A1321562ECB00E94235 /* FirstViewController.swift */; };
 		D3428A1621562ECB00E94235 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3428A1521562ECB00E94235 /* SecondViewController.swift */; };
-		D3428A1921562ECB00E94235 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3428A1721562ECB00E94235 /* Main.storyboard */; };
 		D3428A1B21562ECC00E94235 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3428A1A21562ECC00E94235 /* Assets.xcassets */; };
 		D3428A1E21562ECC00E94235 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3428A1C21562ECC00E94235 /* LaunchScreen.storyboard */; };
 		D3428A26215633F200E94235 /* DetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3428A25215633F200E94235 /* DetailController.swift */; };
 		D3428A292156355000E94235 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3428A282156355000E94235 /* MapKit.framework */; };
+		D34C8FB6215BF45E00A3FF36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3428A1721562ECB00E94235 /* Main.storyboard */; };
 		D3617B4B21563FAB00E10ADF /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3617B4A21563FAB00E10ADF /* Place.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D329B29D215D4DC200DE4D36 /* cadaques.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cadaques.png; sourceTree = "<group>"; };
+		D329B29F215D4DC800DE4D36 /* lakeMoraine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lakeMoraine.png; sourceTree = "<group>"; };
+		D329B2A1215D4DCE00DE4D36 /* rialtoVenecia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rialtoVenecia.png; sourceTree = "<group>"; };
 		D3428A0E21562ECB00E94235 /* MyPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3428A1121562ECB00E94235 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3428A1321562ECB00E94235 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -47,7 +53,6 @@
 		D3428A0521562ECB00E94235 = {
 			isa = PBXGroup;
 			children = (
-				D3617B4A21563FAB00E10ADF /* Place.swift */,
 				D3428A1021562ECB00E94235 /* MyPlaces */,
 				D3428A0F21562ECB00E94235 /* Products */,
 				D3428A272156355000E94235 /* Frameworks */,
@@ -65,6 +70,10 @@
 		D3428A1021562ECB00E94235 /* MyPlaces */ = {
 			isa = PBXGroup;
 			children = (
+				D329B29D215D4DC200DE4D36 /* cadaques.png */,
+				D329B2A1215D4DCE00DE4D36 /* rialtoVenecia.png */,
+				D329B29F215D4DC800DE4D36 /* lakeMoraine.png */,
+				D3617B4A21563FAB00E10ADF /* Place.swift */,
 				D3428A1121562ECB00E94235 /* AppDelegate.swift */,
 				D3428A1321562ECB00E94235 /* FirstViewController.swift */,
 				D3428A1521562ECB00E94235 /* SecondViewController.swift */,
@@ -148,9 +157,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D329B29E215D4DC200DE4D36 /* cadaques.png in Resources */,
+				D329B2A2215D4DCE00DE4D36 /* rialtoVenecia.png in Resources */,
 				D3428A1E21562ECC00E94235 /* LaunchScreen.storyboard in Resources */,
 				D3428A1B21562ECC00E94235 /* Assets.xcassets in Resources */,
-				D3428A1921562ECB00E94235 /* Main.storyboard in Resources */,
+				D329B2A0215D4DC900DE4D36 /* lakeMoraine.png in Resources */,
+				D34C8FB6215BF45E00A3FF36 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

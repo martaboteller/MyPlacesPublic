@@ -11,6 +11,7 @@ import MapKit //para encontrar CLlocationCoordinate2D de propiedad location
 
 class Place {
     
+    //types
     enum PlacesTypes{
         case GenericPlace
         case TouristicPlace
@@ -20,16 +21,25 @@ class Place {
     var id:String = ""
     var type:PlacesTypes = .GenericPlace
     var name:String = ""
+    var description:String=""
     var location:CLLocationCoordinate2D!
     var image:Data?=nil
     
-    //constructores
+    //constructors
     init(){self.id = UUID().uuidString}
     init(name:String,description:String,image_in:Data?){
-         self.id = UUID().uuidString
+        self.id = UUID().uuidString
+        self.name=name
+        self.description=description
+        self.image=image_in
+      
     }
     init(type:PlacesTypes,name:String,description:String,image_in:Data?){
         self.id = UUID().uuidString
+        self.type=type
+        self.name=name
+        self.description=description
+        self.image=image_in
     }
 }
 
@@ -50,21 +60,44 @@ class PlaceTourist:Place {
 
 
 class ManagerPlaces {
-    var ManagerPlaces: [Place]
+    
+    //make singleton class
+    static let shared = ManagerPlaces()
+    
+    var places:[Place] = []
+    
     init(){}
     
-    //para añadir un place
-    func append(_value:Place){}
-    //para saber el num de place
-    func GetCount()->Int{}
-    //para obtener un place por posición
-    func GetItemAtPosition(position:Int)-> Place{}
-    //para obtener un place por id
-    func GetItemById(id:String)-> Place{}
-    //para borrar un elemento por id
-    func remove(_value:Place){}
+    //funciton to add a place
+    func append(_ value:Place){
+        places.append(value)
+    }
     
+    //function to count stored places
+    func GetCount()->Int{
+        return places.count
+    }
+    
+    //function to get place by position on array
+    func GetItemAtPosition(position:Int)-> Place{
+        return places[position]
+    }
+    
+    //function to get a place by id
+    func GetItemById(id:String)-> Place{
+       return  places.filter{$0.id == id }[0]
+    }
+ 
+    //function to remove a place by id
+    func remove(_ value:Place){
+        places = places.filter { $0 !== value}
+    }
+        
 }
+    
+
+    
+
 
 
 
