@@ -3,7 +3,7 @@
 //  MyPlaces
 //
 //  Created by Marta Boteller on 22/9/18.
-//  Copyright © 2018 Marta Boteller. All rights reserved.
+//  Copyright © 2018 Marta Boteller.  All rights reserved.
 //
 
 import Foundation
