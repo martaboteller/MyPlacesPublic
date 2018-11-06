@@ -12,9 +12,18 @@ class SecondViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        //Show logo instead of application name
+        self.navigationItem.titleView = UIImageView(image: UIImage(named: "appLogo.png"))
+        self.navigationItem.titleView?.tintColor = UIColor.white
     }
-
-
+    
+    //Restrict rotation
+    override open var shouldAutorotate: Bool {
+        return false
+    }
+    
+    
+  
 }
 

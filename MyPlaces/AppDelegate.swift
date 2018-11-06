@@ -12,56 +12,43 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+   
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        //create singleton instance of ManagerPlaces
-        let manager = ManagerPlaces.shared
+        // We add some test places so the app can show some information when it loads. When we start creating our own real
+        // content we will need to remove this part, of course.
+        let manager = PlaceManager.shared
         
-        //get images and data to test with
-        let image1 = UIImage(named:"lakeMoraine.png")
-        let image2 = UIImage(named:"cadaques.png")
-        let image3 = UIImage(named:"rialtoVenecia.png")
-        let data1 = image1?.pngData()
-        let data2 = image2?.pngData()
-        let data3 = image3?.pngData()
-    
+        //Get images and data to test with
+        let data1 = UIImage(named:"imatgeUOC.png")?.pngData()
+        let data2 = UIImage(named:"imatgeRostisseria.png")?.pngData()
+        let data3 = UIImage(named:"imatgeCifo.png")?.pngData()
+        let data4 = UIImage(named:"imatgeCosmoCaixa.png")?.pngData()
+        let data5 = UIImage(named:"imatgeParcG.png")?.pngData()
         
-        var pl = Place(name:"Lake Moraine",description:"Llac de muntanya localitzat al Parc Nacional de Banff, a Alberta, Canadà.",image_in:data1)
-        manager.append(pl)
+        let someTestPlaces = [
+            Place(name: "UOC 22@",
+                  description: "Seu de la Universitat Oberta de Catalunya",
+                  image_in: data1),
+            Place(name: "Rostisseria Lolita",
+                  description: "Els millors pollastres de Sant Cugat",
+                  image_in: data2),
+            Place(name: "CIFO L'Hospitalet",
+                  description: "Seu del Centre d'Innovació i Formació per a l'Ocupació",
+                  image_in: data3),
+            PlaceTourist(name: "CosmoCaixa",
+                         description: "Museu de la Ciència de Barcelona",
+                         discount_tourist: "50%", image_in: data4),
+            PlaceTourist(name: "Park Güell",
+                         description: "Obra d'Antoni Gaudí a Barcelona",
+                         discount_tourist: "10%", image_in: data5)
+        ]
         
-        pl = Place(name:"Cadaqués",description:"Poble més oriental de la península ibèrica a la comarca de l'Alt Empordà, Girona",image_in:data2)
-        manager.append(pl)
-        
-        pl = Place(name:"Venecia",description:"Ciutat italiana amb centre històric declarat patrimoni de la humanitat per l'UNESCO",image_in:data3)
-        manager.append(pl)
+       for place in someTestPlaces {
+            manager.append(place)
+        }
         
         return true
     }
-
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
-
+   
 }
-
