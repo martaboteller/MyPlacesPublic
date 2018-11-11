@@ -112,5 +112,56 @@ class PlaceManager {
             return MyPlaces.Place.PlaceType.touristic
         }
     }
+    
+    
+    struct Response: Decodable {
+        let fruits: [Fruits]
+        
+    }
+    
+    struct Fruits: Decodable {
+        let id: String
+        let image: String
+        let name: String?
+        let title: String?
+    }
+    
+    
+    func parseJSON(){
+        
+        if let path = Bundle.main.path(forResource: "data", ofType: "json") {
+            
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                let jsonResult = try JSONDecoder().decode(Response.self, from: data)
+                
+                let fruitsArray = jsonResult.fruits
+                
+                for fruit in fruitsArray{
+                    
+                    print("""
+                        ID = \(fruit.id)
+                        Image = \(fruit.image)
+                        """)
+                    
+                    if let validName = fruit.name{
+                        print("Name = \(validName)")
+                    }
+                    
+                    if let validTitle = fruit.title{
+                        print("Title = \(validTitle)")
+                    }
+                    
+                    
+                }
+                
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    
+    
 }
 

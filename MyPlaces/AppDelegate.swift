@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let manager = PlaceManager.shared
         
         //Get images and data to test with
-        let data1 = UIImage(named:"imatgeUOC.png")?.pngData()
+        /*let data1 = UIImage(named:"imatgeUOC.png")?.pngData()
         let data2 = UIImage(named:"imatgeRostisseria.png")?.pngData()
         let data3 = UIImage(named:"imatgeCifo.png")?.pngData()
         let data4 = UIImage(named:"imatgeCosmoCaixa.png")?.pngData()
@@ -46,7 +47,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
        for place in someTestPlaces {
             manager.append(place)
-        }
+       }*/
+        
+        //let path = Bundle.main.path(forResource: "data", ofType: "json")
+        //let data = try? NSData(contentsOfFile: path!, options: NSData.ReadingOptions.mappedIfSafe)
+       
+        
+        manager.parseJSON()
+        
+    
         
         return true
     }

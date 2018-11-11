@@ -1,0 +1,15 @@
+
+{
+    "fruits": [
+        {
+            "id": "1",
+            "image": "https://cdn1.medicalnewstoday.com/content/images/headlines/271/271157/bananas.jpg",
+            "name": "Banana"
+        },
+        {
+            "id": "2",
+            "image": "http://soappotions.com/wp-content/uploads/2017/10/orange.jpg",
+            "title": "Orange"
+        }
+    ]
+}
