@@ -16,48 +16,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        // We add some test places so the app can show some information when it loads. When we start creating our own real
-        // content we will need to remove this part, of course.
+        //Initialize Manager
         let manager = PlaceManager.shared
         
-        //Get images and data to test with
-        /*let data1 = UIImage(named:"imatgeUOC.png")?.pngData()
-        let data2 = UIImage(named:"imatgeRostisseria.png")?.pngData()
-        let data3 = UIImage(named:"imatgeCifo.png")?.pngData()
-        let data4 = UIImage(named:"imatgeCosmoCaixa.png")?.pngData()
-        let data5 = UIImage(named:"imatgeParcG.png")?.pngData()
-        
-        let someTestPlaces = [
-            Place(name: "UOC 22@",
-                  description: "Seu de la Universitat Oberta de Catalunya",
-                  image_in: data1),
-            Place(name: "Rostisseria Lolita",
-                  description: "Els millors pollastres de Sant Cugat",
-                  image_in: data2),
-            Place(name: "CIFO L'Hospitalet",
-                  description: "Seu del Centre d'Innovació i Formació per a l'Ocupació",
-                  image_in: data3),
-            PlaceTourist(name: "CosmoCaixa",
-                         description: "Museu de la Ciència de Barcelona",
-                         discount_tourist: "50%", image_in: data4),
-            PlaceTourist(name: "Park Güell",
-                         description: "Obra d'Antoni Gaudí a Barcelona",
-                         discount_tourist: "10%", image_in: data5)
-        ]
-        
-       for place in someTestPlaces {
-            manager.append(place)
-       }*/
-        
-        //let path = Bundle.main.path(forResource: "data", ofType: "json")
-        //let data = try? NSData(contentsOfFile: path!, options: NSData.ReadingOptions.mappedIfSafe)
+        //Define paths and files
+        let fileManager = FileManager.default
+        let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let templateFile = docsPath.appendingPathComponent("savedPlaces.json")
+        let userdataFile = docsPath.appendingPathComponent("userPlaces.json")
+        var path: URL
        
+        //Create userdataFile
+        if(!fileManager.fileExists(atPath: userdataFile.path)){
+            fileManager.createFile(atPath: userdataFile.path, contents: nil, attributes: nil)
+        }
         
-        manager.parseJSON()
-        
+        //Save default places into templateFile
+        if(!fileManager.fileExists(atPath: templateFile.path)){
+            fileManager.createFile(atPath: templateFile.path, contents: nil, attributes: nil)
+        }
+        if !PlaceManager.shared.userHasData(path: templateFile){
+            if PlaceManager.shared.writeToJson(fileName: templateFile, places: PlaceManager.shared.somePlaces()){
+                print("Template data correctly saved into file")
+            }else{
+                print("Error saving template data")
+            }
+        }
+       
+        //Read data and append it into manager
+        if PlaceManager.shared.userHasData(path: userdataFile){
+           path = userdataFile
+        } else {
+           path = templateFile
+        }
+        //Serialize JSON from file
+        do{
+           let jsonData = try Data.init(contentsOf: path)
+           let places = PlaceManager.shared.placesFrom(jsonData: jsonData)
+                for place in places {
+                    //print(place)
+                    manager.append(place)
+                }
+        } catch {
+            print ("Unable to read from : " + path.path)
+        }
     
-        
-        return true
+    return true
     }
-   
 }

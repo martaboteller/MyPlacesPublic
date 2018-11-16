@@ -6,6 +6,7 @@
 //  Copyright © 2018 Marta Boteller. All rights reserved.
 //
 import UIKit
+import MapKit
 
 class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
    
@@ -25,8 +26,8 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var pickerData: [String] = ["Generic Place", "Touristic Place"]
     var pickerImg = UIImagePickerController()
     var idPlace: String = ""
-   
-   
+    var stringImage: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,8 +62,9 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         if let place = place {
             
-            //Write down the place id
+            //Write down the place id and image name
             idPlace = place.id
+            stringImage = place.stringImage
             
             //Fill editable fields
             insertPlace(place: place)
@@ -102,20 +104,44 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             dismiss(animated: true, completion: nil)
         //Update existing place
         } else {
+            //Path and file
+            let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let userdataFile = docsPath.appendingPathComponent("userPlaces.json")
+            
             //Retreive place
             let imageData: Data = imgEdit.image!.pngData()!
             let selectedValue: String = pickerData[picker.selectedRow(inComponent: 0)]
             let typeOfPlace: MyPlaces.Place.PlaceType = PlaceManager.shared.placeType(selectedValue)
-            let placeToRemove: Place? = Place(id: idPlace,type: typeOfPlace , name: placeName.text!, description: placeDescription.text!, image_in: imageData)
+            let placeToRemove: Place? = Place(id: idPlace,name: placeName.text!, description: placeDescription.text!,image_in: imageData, stringImage: stringImage, type: typeOfPlace, location: CLLocationCoordinate2D(latitude: 42.4, longitude: 2.3))
                 
-            PlaceManager.shared.remove(placeToRemove!)
+            MyPlaces.PlaceManager.shared.remove(placeToRemove!)
             let vc = self.storyboard?.instantiateInitialViewController()
             self.present(vc!, animated: false, completion: nil)
+            
+             //Write all places into file in FileManager
+            let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
+            if PlaceManager.shared.writeToJson(fileName: userdataFile, places: myPlacesArray){
+                print("User's data correctly saved into file")
+            }else{
+                print("Error saving user's data")
+            }
+            
+            //Delete image from file
+            if PlaceManager.shared.deleteImage(imageName: stringImage){
+                print ("Image " + stringImage + " deleted from file")
+            }else{
+                print("Error deleting image from file")
+            }
         }
     }
     
     //Save changes on edited place
     @IBAction func saveEdit(_ sender: Any) {
+   
+        //Path and file
+        let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let userdataFile = docsPath.appendingPathComponent("userPlaces.json")
+        
         //Construct place
         let imageData: Data = imgEdit.image!.pngData()!
         let selectedValue: String = pickerData[picker.selectedRow(inComponent: 0)]
@@ -124,19 +150,42 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         //Saving a new place
         //Place constructor without id
         if idPlace == "" {
-            let editedPlace: Place? = Place(type: typeOfPlace , name: placeName.text!, description: placeDescription.text!, image_in: imageData)
-                
+            
+            //Separately, save image into file and return it's name
+            let imageName: String = PlaceManager.shared.saveImage(image:imageData)
+            
+            //Create new place
+            let editedPlace: Place? = Place(name: placeName.text!, description: placeDescription.text!, image_in: imageData, stringImage:imageName,type: typeOfPlace,location: CLLocationCoordinate2D(latitude: 42.4, longitude: 2.3)  )
+            
+            //Append it to manager
             PlaceManager.shared.append(editedPlace!)
+            let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
+          
+            //Write all places into file in FileManager
+            if PlaceManager.shared.writeToJson(fileName: userdataFile, places: myPlacesArray){
+                print("User's data correctly saved into file")
+            }else{
+                print("Error saving user's data")
+            }
             
             performSegue(withIdentifier: "UnwindGoDetail", sender: editedPlace)
             
         //Update existing place
         //Place constructor with id
         } else {
-            let editedPlace: Place? = Place(id: idPlace,type: typeOfPlace , name: placeName.text!, description: placeDescription.text!, image_in: imageData)
+            let editedPlace: Place? = Place(id: idPlace,name: placeName.text!, description: placeDescription.text!,image_in: imageData, stringImage: stringImage, type: typeOfPlace, location:CLLocationCoordinate2D(latitude: 42.4, longitude: 2.3))
                 
             PlaceManager.shared.update(editedPlace!)
             
+            //Update changes on json
+            let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
+            
+            //Write all places into file in FileManager
+            if PlaceManager.shared.writeToJson(fileName: userdataFile, places: myPlacesArray){
+                print("User's data correctly saved into file")
+            }else{
+                print("Error saving user's data")
+            }
             performSegue(withIdentifier: "UnwindGoDetail", sender: editedPlace)
         }
     }

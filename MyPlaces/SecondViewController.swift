@@ -6,7 +6,7 @@
 //  Copyright © 2018 Marta Boteller. All rights reserved.
 //
 
-import UIKit
+import MapKit
 
 class SecondViewController: UIViewController {
 

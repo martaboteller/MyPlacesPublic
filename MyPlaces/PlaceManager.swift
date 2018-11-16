@@ -6,8 +6,7 @@
 //  Copyright © 2018 Marta Boteller. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import MapKit
 
 // Do you see those MARK lines there in the code? They do nothing (of course, they are comments
 // after all). But that special syntax let you define some nice sections in the header. Have a look
@@ -28,6 +27,7 @@ class PlaceManager {
     static let shared = PlaceManager()
     private init() {}
     
+    
     // MARK: - Class implementation
     
     // This is how PlaceManager will track all places: using an array. We could have used some other
@@ -36,6 +36,12 @@ class PlaceManager {
     // below, but all instances in our project calling methods in PlaceManager won't be affected,
     // because using an array or something else is just a private detail.
     private var places = [Place]()
+    
+    
+    //Returns an array with all saved places
+    func returnSaved ()-> [Place]{
+        return self.places
+    }
     
     // Inserts a new place into list of places managed by PlaceManager.
     func append(_ place: Place) {
@@ -90,11 +96,6 @@ class PlaceManager {
         places[position] = place
     }
     
-    /*
-    func retrivePlaces ( ) -> [Place] {
-        return places
-    }*/
-    
     //Retrives the type of place as a String
     func typePlace(_ type: MyPlaces.Place.PlaceType)-> String{
         if type == MyPlaces.Place.PlaceType.generic {
@@ -113,55 +114,4 @@ class PlaceManager {
         }
     }
     
-    
-    struct Response: Decodable {
-        let fruits: [Fruits]
-        
-    }
-    
-    struct Fruits: Decodable {
-        let id: String
-        let image: String
-        let name: String?
-        let title: String?
-    }
-    
-    
-    func parseJSON(){
-        
-        if let path = Bundle.main.path(forResource: "data", ofType: "json") {
-            
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                let jsonResult = try JSONDecoder().decode(Response.self, from: data)
-                
-                let fruitsArray = jsonResult.fruits
-                
-                for fruit in fruitsArray{
-                    
-                    print("""
-                        ID = \(fruit.id)
-                        Image = \(fruit.image)
-                        """)
-                    
-                    if let validName = fruit.name{
-                        print("Name = \(validName)")
-                    }
-                    
-                    if let validTitle = fruit.title{
-                        print("Title = \(validTitle)")
-                    }
-                    
-                    
-                }
-                
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    
-    
 }
-

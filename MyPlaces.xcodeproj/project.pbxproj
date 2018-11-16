@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D3225C5D21977E8F00F8C392 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = D3225C5C21977E8F00F8C392 /* data.json */; };
+		D3304B9C219C96DA00B7F6BB /* PlaceManager+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3304B9B219C96DA00B7F6BB /* PlaceManager+JSON.swift */; };
 		D3428A1221562ECB00E94235 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3428A1121562ECB00E94235 /* AppDelegate.swift */; };
 		D3428A1421562ECB00E94235 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3428A1321562ECB00E94235 /* FirstViewController.swift */; };
 		D3428A1621562ECB00E94235 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3428A1521562ECB00E94235 /* SecondViewController.swift */; };
@@ -21,15 +21,10 @@
 		D3617B4B21563FAB00E10ADF /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3617B4A21563FAB00E10ADF /* Place.swift */; };
 		D3A3DDFE2174FED6003CF46F /* EditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A3DDFD2174FED6003CF46F /* EditController.swift */; };
 		D3A3DE0021750B67003CF46F /* PlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A3DDFF21750B67003CF46F /* PlaceCell.swift */; };
-		D3D7A2E6217A135400A4969A /* imatgeCifo.png in Resources */ = {isa = PBXBuildFile; fileRef = D3D7A2E1217A135400A4969A /* imatgeCifo.png */; };
-		D3D7A2E7217A135400A4969A /* imatgeRostisseria.png in Resources */ = {isa = PBXBuildFile; fileRef = D3D7A2E2217A135400A4969A /* imatgeRostisseria.png */; };
-		D3D7A2E8217A135400A4969A /* imatgeParcG.png in Resources */ = {isa = PBXBuildFile; fileRef = D3D7A2E3217A135400A4969A /* imatgeParcG.png */; };
-		D3D7A2E9217A135400A4969A /* imatgeUOC.png in Resources */ = {isa = PBXBuildFile; fileRef = D3D7A2E4217A135400A4969A /* imatgeUOC.png */; };
-		D3D7A2EA217A135400A4969A /* imatgeCosmoCaixa.png in Resources */ = {isa = PBXBuildFile; fileRef = D3D7A2E5217A135400A4969A /* imatgeCosmoCaixa.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D3225C5C21977E8F00F8C392 /* data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.json; };
+		D3304B9B219C96DA00B7F6BB /* PlaceManager+JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceManager+JSON.swift"; sourceTree = "<group>"; };
 		D3428A0E21562ECB00E94235 /* MyPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3428A1121562ECB00E94235 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3428A1321562ECB00E94235 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -45,11 +40,6 @@
 		D3617B4A21563FAB00E10ADF /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		D3A3DDFD2174FED6003CF46F /* EditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditController.swift; sourceTree = "<group>"; };
 		D3A3DDFF21750B67003CF46F /* PlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCell.swift; sourceTree = "<group>"; };
-		D3D7A2E1217A135400A4969A /* imatgeCifo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = imatgeCifo.png; path = resources/imatgeCifo.png; sourceTree = "<group>"; };
-		D3D7A2E2217A135400A4969A /* imatgeRostisseria.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = imatgeRostisseria.png; path = resources/imatgeRostisseria.png; sourceTree = "<group>"; };
-		D3D7A2E3217A135400A4969A /* imatgeParcG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = imatgeParcG.png; path = resources/imatgeParcG.png; sourceTree = "<group>"; };
-		D3D7A2E4217A135400A4969A /* imatgeUOC.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = imatgeUOC.png; path = resources/imatgeUOC.png; sourceTree = "<group>"; };
-		D3D7A2E5217A135400A4969A /* imatgeCosmoCaixa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = imatgeCosmoCaixa.png; path = resources/imatgeCosmoCaixa.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,14 +54,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D3225C5B21977E1000F8C392 /* SavedData */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = SavedData;
-			path = "New Group";
-			sourceTree = "<group>";
-		};
 		D3428A0521562ECB00E94235 = {
 			isa = PBXGroup;
 			children = (
@@ -92,13 +74,6 @@
 		D3428A1021562ECB00E94235 /* MyPlaces */ = {
 			isa = PBXGroup;
 			children = (
-				D3225C5C21977E8F00F8C392 /* data.json */,
-				D3225C5B21977E1000F8C392 /* SavedData */,
-				D3D7A2E5217A135400A4969A /* imatgeCosmoCaixa.png */,
-				D3D7A2E3217A135400A4969A /* imatgeParcG.png */,
-				D3D7A2E1217A135400A4969A /* imatgeCifo.png */,
-				D3D7A2E2217A135400A4969A /* imatgeRostisseria.png */,
-				D3D7A2E4217A135400A4969A /* imatgeUOC.png */,
 				D3428A1121562ECB00E94235 /* AppDelegate.swift */,
 				D3428A1321562ECB00E94235 /* FirstViewController.swift */,
 				D3428A1521562ECB00E94235 /* SecondViewController.swift */,
@@ -112,6 +87,7 @@
 				D3617B4A21563FAB00E10ADF /* Place.swift */,
 				D3563DE72173A696007EB430 /* PlaceTourist.swift */,
 				D3563DE92173A751007EB430 /* PlaceManager.swift */,
+				D3304B9B219C96DA00B7F6BB /* PlaceManager+JSON.swift */,
 			);
 			path = MyPlaces;
 			sourceTree = "<group>";
@@ -188,14 +164,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3428A1E21562ECC00E94235 /* LaunchScreen.storyboard in Resources */,
-				D3D7A2E7217A135400A4969A /* imatgeRostisseria.png in Resources */,
-				D3D7A2E9217A135400A4969A /* imatgeUOC.png in Resources */,
-				D3D7A2E8217A135400A4969A /* imatgeParcG.png in Resources */,
 				D3428A1B21562ECC00E94235 /* Assets.xcassets in Resources */,
 				D34C8FB6215BF45E00A3FF36 /* Main.storyboard in Resources */,
-				D3D7A2E6217A135400A4969A /* imatgeCifo.png in Resources */,
-				D3225C5D21977E8F00F8C392 /* data.json in Resources */,
-				D3D7A2EA217A135400A4969A /* imatgeCosmoCaixa.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +177,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3563DE82173A696007EB430 /* PlaceTourist.swift in Sources */,
+				D3304B9C219C96DA00B7F6BB /* PlaceManager+JSON.swift in Sources */,
 				D3A3DDFE2174FED6003CF46F /* EditController.swift in Sources */,
 				D3428A26215633F200E94235 /* DetailController.swift in Sources */,
 				D3428A1621562ECB00E94235 /* SecondViewController.swift in Sources */,
