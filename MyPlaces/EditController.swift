@@ -10,6 +10,9 @@ import MapKit
 
 class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
    
+    //Storyboard references
+    @IBOutlet weak var coordinatesLabel: UILabel!
+    @IBOutlet weak var textFieldCoord: UITextField!
     @IBOutlet weak var placeName: UITextField!
     @IBOutlet weak var placeDescription: UITextView!
     @IBOutlet weak var imgEdit: UIImageView!
@@ -27,6 +30,10 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var pickerImg = UIImagePickerController()
     var idPlace: String = ""
     var stringImage: String = ""
+    var imageData: Data?
+    var defaultDocsPath: URL?
+    var defaultFileURL: URL?
+    var defaultImageURL: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +45,8 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         //Format name and description texts
         placeName.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 17)
         placeDescription.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
+        coordinatesLabel.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
+        textFieldCoord.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
         
         //Format placeholder for place description
         placeholderLabel.text = "Place description..."
@@ -49,9 +58,12 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         //Format button that selects new image
         selectImg.tintColor = UIColor.white
-        //selectImg.titleLabel?.text = "..."
-        //selectImg.titleLabel?.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 50)
         
+        //Save location of working file
+        defaultDocsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        defaultImageURL = defaultDocsPath!.appendingPathComponent("defaultImage.png")
+        defaultFileURL = defaultDocsPath!.appendingPathComponent("userPlaces.json")
+       
         //Connect data
         self.placeDescription.delegate = self
         self.picker.delegate = self
@@ -61,16 +73,15 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         // MARK: - Fill elements with place info
         
         if let place = place {
-            
-            //Write down the place id and image name
+            //Write down the place id and image name if exists
             idPlace = place.id
             stringImage = place.stringImage
             
             //Fill editable fields
             insertPlace(place: place)
+        } else{
+            stringImage = "defaultImage.png"
         }
-        
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -95,6 +106,7 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         pickerImg.sourceType = .photoLibrary
         pickerImg.allowsEditing = true
         present(pickerImg, animated: true, completion: nil)
+        stringImage = "ImageChanged"
     }
   
     //Remove edited place
@@ -104,95 +116,65 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             dismiss(animated: true, completion: nil)
         //Update existing place
         } else {
-            //Path and file
-            let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let userdataFile = docsPath.appendingPathComponent("userPlaces.json")
-            
-            //Retreive place
-            let imageData: Data = imgEdit.image!.pngData()!
-            let selectedValue: String = pickerData[picker.selectedRow(inComponent: 0)]
-            let typeOfPlace: MyPlaces.Place.PlaceType = PlaceManager.shared.placeType(selectedValue)
-            let placeToRemove: Place? = Place(id: idPlace,name: placeName.text!, description: placeDescription.text!,image_in: imageData, stringImage: stringImage, type: typeOfPlace, location: CLLocationCoordinate2D(latitude: 42.4, longitude: 2.3))
-                
-            MyPlaces.PlaceManager.shared.remove(placeToRemove!)
-            let vc = self.storyboard?.instantiateInitialViewController()
-            self.present(vc!, animated: false, completion: nil)
-            
-             //Write all places into file in FileManager
-            let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
-            if PlaceManager.shared.writeToJson(fileName: userdataFile, places: myPlacesArray){
-                print("User's data correctly saved into file")
-            }else{
-                print("Error saving user's data")
-            }
-            
             //Delete image from file
             if PlaceManager.shared.deleteImage(imageName: stringImage){
-                print ("Image " + stringImage + " deleted from file")
             }else{
                 print("Error deleting image from file")
             }
+            //Delete place from manager
+            MyPlaces.PlaceManager.shared.remove(retrievePlace(image: (imgEdit!.image?.pngData())!))
+          
+            //Update json file at FileManager
+            let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
+            if PlaceManager.shared.writeToJson(fileName: defaultFileURL!, places: myPlacesArray){
+            }else{
+                print("Error saving user's data when removing a place")
+            }
+            
+            //Go back to previous view
+            let vc = self.storyboard?.instantiateInitialViewController()
+            self.present(vc!, animated: false, completion: nil)
         }
     }
     
     //Save changes on edited place
     @IBAction func saveEdit(_ sender: Any) {
-   
-        //Path and file
-        let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let userdataFile = docsPath.appendingPathComponent("userPlaces.json")
         
-        //Construct place
-        let imageData: Data = imgEdit.image!.pngData()!
-        let selectedValue: String = pickerData[picker.selectedRow(inComponent: 0)]
-        let typeOfPlace: MyPlaces.Place.PlaceType = PlaceManager.shared.placeType(selectedValue)
-            
-        //Saving a new place
-        //Place constructor without id
-        if idPlace == "" {
-            
-            //Separately, save image into file and return it's name
-            let imageName: String = PlaceManager.shared.saveImage(image:imageData)
-            
-            //Create new place
-            let editedPlace: Place? = Place(name: placeName.text!, description: placeDescription.text!, image_in: imageData, stringImage:imageName,type: typeOfPlace,location: CLLocationCoordinate2D(latitude: 42.4, longitude: 2.3)  )
-            
-            //Append it to manager
-            PlaceManager.shared.append(editedPlace!)
-            let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
-          
-            //Write all places into file in FileManager
-            if PlaceManager.shared.writeToJson(fileName: userdataFile, places: myPlacesArray){
-                print("User's data correctly saved into file")
-            }else{
-                print("Error saving user's data")
-            }
-            
-            performSegue(withIdentifier: "UnwindGoDetail", sender: editedPlace)
-            
-        //Update existing place
-        //Place constructor with id
-        } else {
-            let editedPlace: Place? = Place(id: idPlace,name: placeName.text!, description: placeDescription.text!,image_in: imageData, stringImage: stringImage, type: typeOfPlace, location:CLLocationCoordinate2D(latitude: 42.4, longitude: 2.3))
-                
-            PlaceManager.shared.update(editedPlace!)
-            
-            //Update changes on json
-            let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
-            
-            //Write all places into file in FileManager
-            if PlaceManager.shared.writeToJson(fileName: userdataFile, places: myPlacesArray){
-                print("User's data correctly saved into file")
-            }else{
-                print("Error saving user's data")
-            }
-            performSegue(withIdentifier: "UnwindGoDetail", sender: editedPlace)
+        //Save image at FileManager and update its name
+        if stringImage == "ImageChanged" {
+            stringImage =  PlaceManager.shared.saveImage(image: (imgEdit!.image?.pngData())!)
         }
+        let place: Place = retrievePlace(image: (imgEdit!.image?.pngData())!)
+        place.stringImage = stringImage //Would only be necessary if changed
+        
+        //Append or Update place to save
+        if idPlace == "" {
+            PlaceManager.shared.append(place)
+        } else {
+            PlaceManager.shared.update(place)
+        }
+           
+        //Update json file at FileManager
+        let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
+        if PlaceManager.shared.writeToJson(fileName: defaultFileURL!, places: myPlacesArray){
+        }else{
+            print("Error saving user's data when saving the place")
+        }
+            
+        //Go back to previous view
+        performSegue(withIdentifier: "UnwindGoDetail", sender: place)
+        
     }
     
     //Go back to previous screen
     @IBAction func cancelEdit(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func goFindCoordinates(_ sender: Any) {
+        let place: Place = retrievePlace(image: (imgEdit!.image?.pngData()))
+        place.stringImage += "LookingForCoordinates"
+        performSegue(withIdentifier: "PickUpCoordinates", sender: place)
     }
     
     // MARK: - Functions
@@ -244,15 +226,17 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
     }
     
-    //Function that fills the editable fields with the place info
+    //Function that fills editable fields with the place info
     //If don't have an id (don't have a place) do nothing
     func insertPlace (place: Place){
         if !place.id.isEmpty {
             placeholderLabel.isHidden = true
             placeName.text = place.name
-            placeDescription.text = place.description
+            placeDescription.text = place.descriptionPlace
             imgEdit.image = UIImage(data: place.image!)
-            //display first element of the picker depending on the type of place
+            textFieldCoord.text = PlaceManager.shared.coordToString(latitude: place.location.latitude, longitude: place.location.longitude)
+            
+            //Display first element of the picker depending on the type of place
             if place.type == MyPlaces.Place.PlaceType.generic {
                 pickerData = ["Generic Place", "Touristic Place",]
             } else {
@@ -261,6 +245,20 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
     }
     
+    //Constructs place from info displayed at EditController view
+    func retrievePlace (image: Data?) -> Place {
+        let selectedValue: String = pickerData[picker.selectedRow(inComponent: 0)]
+        let typeOfPlace: MyPlaces.Place.PlaceType = PlaceManager.shared.placeType(selectedValue)
+        let coord:CLLocationCoordinate2D = PlaceManager.shared.stringToCoord(stringOfCoords: textFieldCoord.text!)
+        
+        if idPlace == "" {
+             place = Place(name: placeName.text!, descriptionPlace: placeDescription.text!,image_in: image, stringImage: stringImage, type: typeOfPlace, location: coord)
+        } else {
+             place = Place(id: idPlace,name: placeName.text!, descriptionPlace: placeDescription.text!,image_in: image, stringImage: stringImage, type: typeOfPlace, location: coord)
+        }
+        return place!
+    }
+
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "UnwindGoDetail" {
@@ -268,9 +266,15 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 dc.place = sender as? Place
             }
         }
+        //Concatenate identifining words "LookingForCoordinates" to place.stringImage
+        //Will remove them at MapViewController before sending place back
+        if segue.identifier == "PickUpCoordinates"{
+           // let placeToSend: Place = retrievePlace(image: (imgEdit!.image?.pngData())!)
+            if let dc = segue.destination as? MapViewController {
+                dc.place = sender as? Place
+            }
+        }
     }
-    
-    
 }
 
 extension EditController {

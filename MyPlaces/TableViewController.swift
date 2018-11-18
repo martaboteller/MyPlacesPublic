@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  TableViewController.swift
 //  MyPlaces
 //
 //  Created by Marta Boteller on 22/9/18.
@@ -15,13 +15,13 @@ import UIKit
 // Click on the last element and you will get a drop down list from which you can navigate to any method in current file.
 // Those MARK lines let you specify some sections to group related methods.
 
-// FirstViewController is subclass of UITableViewController.
+// TableViewController is subclass of UITableViewController.
 // UITableViewController is subclass of UIViewController.
 // UITableViewController adopts two protocols: UITableViewDelegate and UITableViewDataSource.
-// So, by being a subclass of UITableViewController, our FirstViewController:
+// So, by being a subclass of UITableViewController, our TableViewController:
 //     1) is also a subclass of UIViewController,
 //     2) automatically adopts both UITableViewDelegate and UITableViewDataSource protocols.
-class FirstViewController: UITableViewController {
+class TableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +68,7 @@ class FirstViewController: UITableViewController {
         // We ask our table for a reusable cell. Then we set its basic details and return it.
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlaceCell", for: indexPath) as! PlaceCell
         cell.nameLabel.text = place.name
-        cell.descriptionLabel.text = place.description
+        cell.descriptionLabel.text = place.descriptionPlace
         let imageIcon: UIImage = UIImage(data:   ((PlaceManager.shared.itemAt(position: indexPath.row))?.image)!)!
         cell.imageSample.image = imageIcon
         

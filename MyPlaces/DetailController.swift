@@ -10,31 +10,31 @@ import UIKit
 
 class DetailController: UIViewController {
 
+    //Storyboard references
     @IBOutlet weak var typePlace: UILabel!
     @IBOutlet weak var iconPlace: UIImageView!
     @IBOutlet weak var descriptionPlace: UITextView!
     @IBOutlet weak var detailTitleBar: UINavigationItem!
     @IBOutlet weak var imgDetail: UIImageView!
     @IBOutlet weak var namePlace: UILabel!
+    
     //Global variables
     var place: Place?
     var idPlace: String = ""
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //Change the application title for a logo
-         detailTitleBar.titleView =  UIImageView(image: UIImage(named: "appLogo.png"))
-         detailTitleBar.titleView?.tintColor = UIColor.white
+        detailTitleBar.titleView =  UIImageView(image: UIImage(named: "appLogo.png"))
+        detailTitleBar.titleView?.tintColor = UIColor.white
         
-        //format text fields
+        //Format text fields
         namePlace.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 20)
         descriptionPlace.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
         typePlace.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
 
         // MARK: - Fill elements with place info
-        
         if let place = place {
         
             //Write down the place id
@@ -42,7 +42,7 @@ class DetailController: UIViewController {
         
             //Fill view fields
             namePlace.text = place.name
-            descriptionPlace.text = place.description
+            descriptionPlace.text = place.descriptionPlace
             typePlace.text = PlaceManager.shared.typePlace(place.type)
             imgDetail.image = UIImage(data: place.image!)
         
@@ -52,9 +52,7 @@ class DetailController: UIViewController {
             }else{
                 iconPlace.image = UIImage(named: "t.png")
             }
-        
         }
-        
     }
     
     //Restrict rotation
@@ -62,7 +60,7 @@ class DetailController: UIViewController {
         return false
     }
         
-     // MARK: - Actions done by icons on the tab bar
+    // MARK: - Actions done by icons on the tab bar
     
     @IBAction func Back(_ sender: Any) {
         //Nothing changed, just go back.
