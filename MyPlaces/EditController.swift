@@ -147,8 +147,17 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let place: Place = retrievePlace(image: (imgEdit!.image?.pngData())!)
         place.stringImage = stringImage //Would only be necessary if changed
         
+        //Verify if it is a new place
+        let placeArray:[Place] = PlaceManager.shared.returnSaved()
+        var str: String = "It's a new place"
+        for i in 0...placeArray.count-1 {
+            if place.id == placeArray [i].id {
+                str = ""
+            }
+        }
+        
         //Append or Update place to save
-        if idPlace == "" {
+        if str == "It's a new place" {
             PlaceManager.shared.append(place)
         } else {
             PlaceManager.shared.update(place)
