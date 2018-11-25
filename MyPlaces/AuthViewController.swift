@@ -19,38 +19,21 @@ class AuthViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let data: [Data] = retrieveDemoImages()
-//        for da in data{
-//            let str = PlaceManager.shared.saveImage(image: da)
-//            print(str)
-//        }
         
-      
-        
+        //Download task test
         let storage = Storage.storage()
         let globalReference = storage.reference()
         let ref = globalReference.child("demoJSON/demoPlaces.json")
         let ref2 = globalReference.child("demoImages/5.png")
         
         let dic = PlaceServices.shared.downloadImage(reference: ref2)
-        let data: Data = dic.keys.first!
+        // let data: Data = dic.keys.first!
         let downloadTask: StorageDownloadTask = dic.values.first!
         downloadTask.observe(.success) { snapshot in
             // Download completed successfully
             print("Downloaded successfully")
         }
-        
-        let myBool =  PlaceServices.shared.prova(ref: ref)
-        // Load the image using SDWebImage
-         print (myBool)
-        
-    //    let imageData = PlaceServices.shared.downloadImage(reference: imageRef)
-    //    let str = PlaceManager.shared.saveImage(image: imageData)
-    //    print(str)
     }
-    
-   
-
     
   
     
@@ -77,28 +60,10 @@ class AuthViewController: UIViewController {
     
     
     
-    
-    
-    
     override func prepare(for segue: UIStoryboardSegue , sender: Any?) {
         if segue.identifier == "AccessApp" {
-//            if let dc = segue.destination as? DetailController {
-//                dc.place = sender as? Place
-//            }
+
         }
     }
     
-//    func prova (ref: StorageReference){
-//        ref.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
-//            if let _error = error{
-//                print(_error)
-//            } else {
-//                if let _data  = data {
-//                    let myImage: Data = (UIImage(data: _data)?.pngData())!
-//                    PlaceManager.shared.saveImage(image: myImage)
-//                }
-//            }
-//        }
-//    }
-
 }
