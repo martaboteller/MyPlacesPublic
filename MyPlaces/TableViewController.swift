@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+
 
 // Do you see those MARK lines there in the code? They do nothing (of course, they are comments
 // after all). But that special syntax let you define some nice sections in the header. Have a look at the bar at the top
@@ -22,7 +24,8 @@ import UIKit
 //     1) is also a subclass of UIViewController,
 //     2) automatically adopts both UITableViewDelegate and UITableViewDataSource protocols.
 class TableViewController: UITableViewController {
-
+    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,6 +37,51 @@ class TableViewController: UITableViewController {
         //Show logo instead of application name
         self.navigationItem.titleView = UIImageView(image: UIImage(named: "appLogo.png"))
         self.navigationItem.titleView?.tintColor = UIColor.white
+        
+        //I want to remove this part from here
+            //Initialize Manager
+            let manager = PlaceManager.shared
+            
+            //Define paths and files where data will be stored
+            let fileManager = FileManager.default
+            let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let templateFile = docsPath.appendingPathComponent("savedPlaces.json")
+            let userdataFile = docsPath.appendingPathComponent("userPlaces.json")
+            var path: URL
+            
+            //Create userdataFile/templateFile if it does not exist
+            //Save default places if templateFile is empty
+            if(!fileManager.fileExists(atPath: userdataFile.path)){
+                fileManager.createFile(atPath: userdataFile.path, contents: nil, attributes: nil)
+            }
+            if(!fileManager.fileExists(atPath: templateFile.path)){
+                fileManager.createFile(atPath: templateFile.path, contents: nil, attributes: nil)
+            }
+            if !PlaceManager.shared.userHasData(path: templateFile){
+                if PlaceManager.shared.writeToJson(fileName: templateFile, places: PlaceManager.shared.somePlaces()){
+                    print("Data correctly saved into tempalteFile")
+                }
+            }
+            
+            //If user has saved data use userdataFile otherwise use templateFile
+            if PlaceManager.shared.userHasData(path: userdataFile){
+                path = userdataFile
+            } else {
+                path = templateFile
+            }
+            
+            //Read data from stored file and append it into manager
+            do{
+                let jsonData = try Data.init(contentsOf: path)
+                let places = PlaceManager.shared.placesFrom(jsonData: jsonData)
+                for place in places {
+                    manager.append(place)
+                }
+            } catch {
+                print ("Unable to read from : " + path.path)
+            }
+        //End part to remove
+        
     }
     
     //Restrict rotation
@@ -110,5 +158,6 @@ class TableViewController: UITableViewController {
             }
         }
     }
-
+    
+   
 }

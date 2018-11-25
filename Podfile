@@ -1,9 +1,16 @@
 
-source 'https://github.com/CocoaPods/Specs.git'
-workspace 'MyPlaces.xcworkspace' # Your project's workspace
-project 'MyPlaces.xcodeproj' # Your project's Xcode project
+platform :ios, '12.0'
+use_frameworks!
+
 target 'MyPlaces' do
- project 'MyPlaces.xcodeproj'
+
 pod 'GoogleMaps'
 pod 'GooglePlaces'
+pod 'Firebase'
+pod 'Firebase/Core'
+pod 'Firebase/Storage'
+pod 'Firebase/Database'
+pod 'Fabric', '~> 1.7.11'
+pod 'Crashlytics', '~> 3.10.7'
+
 end

@@ -7,6 +7,7 @@
 //
 
 import MapKit
+import Firebase
 
 // Do you see those MARK lines there in the code? They do nothing (of course, they are comments
 // after all). But that special syntax let you define some nice sections in the header.
@@ -26,8 +27,10 @@ class PlaceManager {
     // You can learn more about this pattern in Swift in:
     // https://cocoacasts.com/what-is-a-singleton-and-how-to-create-one-in-swift
     static let shared = PlaceManager()
-    private init() {}
     
+   
+    private init() {
+    }
     
     // MARK: - Class implementation
     
@@ -37,6 +40,8 @@ class PlaceManager {
     // the methods below, but all instances in our project calling methods in PlaceManager won't
     // be affected, because using an array or something else is just a private detail.
     private var places = [Place]()
+    
+    var reference = Storage.storage().reference()
     
     //Returns an array with all saved places
     func returnSaved ()-> [Place]{

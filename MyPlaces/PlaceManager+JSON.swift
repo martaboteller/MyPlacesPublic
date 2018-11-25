@@ -7,8 +7,11 @@
 //
 
 import MapKit
+import Firebase
 
 extension PlaceManager  {
+    
+   
     
     //Checks if there is stored data at specific file path
     //If file is emtpy returns "false"
@@ -33,7 +36,7 @@ extension PlaceManager  {
     
         //Prepare images into data
         let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let image1 = docsPath.appendingPathComponent("imatgeUOC.png")
+        let image1 = docsPath.appendingPathComponent("test3.png")
         let image2 = docsPath.appendingPathComponent("imatgeRostisseria.png")
         let image3 = docsPath.appendingPathComponent("imatgeCifo.png")
         let image4 = docsPath.appendingPathComponent("imatgeCosmoCaixa.png")
@@ -87,7 +90,8 @@ extension PlaceManager  {
     //Returns image name
     func saveImage(image: Data)-> String {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let fileName = "Image:" + UUID().uuidString + ".png"
+        //let fileName = "Image:" + UUID().uuidString + ".png"
+        let fileName = "test.json"
         let fileURL = documentsDirectory.appendingPathComponent(fileName)
         
         // Check if the destination file already exists

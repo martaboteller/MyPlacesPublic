@@ -7,8 +7,12 @@
 //
 import UIKit
 import MapKit
+import Firebase
 
 class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
+    
+    //Reference to our FirebaseDatabase
+    //var ref: DatabaseReference!
    
     //Storyboard references
     @IBOutlet weak var coordinatesLabel: UILabel!
@@ -169,9 +173,16 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }else{
             print("Error saving user's data when saving the place")
         }
-            
+        
+        //Save json at Firebase
+      
+        
+       
+        
         //Go back to previous view
         performSegue(withIdentifier: "UnwindGoDetail", sender: place)
+        
+        
         
     }
     

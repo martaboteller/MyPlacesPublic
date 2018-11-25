@@ -1,15 +1,18 @@
-
 {
-    "fruits": [
+    "users": [
         {
-            "id": "1",
-            "image": "https://cdn1.medicalnewstoday.com/content/images/headlines/271/271157/bananas.jpg",
-            "name": "Banana"
+            "name": "John",
+            "age": 25
         },
         {
-            "id": "2",
-            "image": "http://soappotions.com/wp-content/uploads/2017/10/orange.jpg",
-            "title": "Orange"
+            "name": "Mark",
+            "age": 29
+        },
+        {
+            "name": "Sarah",
+            "age": 22
         }
-    ]
+    ],
+    "dataTitle": "JSON Tutorial!",
+    "swiftVersion": 2.1
 }

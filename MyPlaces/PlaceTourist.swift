@@ -18,6 +18,7 @@ class PlaceTourist : Place {
     override init() {
         super.init()
         self.type = .touristic
+         
     }
     
    // Please read more about initializers at:

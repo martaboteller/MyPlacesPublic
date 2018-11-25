@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4273E420D0FD3EFF10415C5D /* libPods-MyPlaces.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33626E5928B6CF7042D25CA5 /* libPods-MyPlaces.a */; };
+		8F637C4318226C16A48AD3A0 /* Pods_MyPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B08757BA198F76A62336774 /* Pods_MyPlaces.framework */; };
 		D3304B9C219C96DA00B7F6BB /* PlaceManager+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3304B9B219C96DA00B7F6BB /* PlaceManager+JSON.swift */; };
 		D3428A1221562ECB00E94235 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3428A1121562ECB00E94235 /* AppDelegate.swift */; };
 		D3428A1421562ECB00E94235 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3428A1321562ECB00E94235 /* TableViewController.swift */; };
@@ -20,15 +20,18 @@
 		D3563DE82173A696007EB430 /* PlaceTourist.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3563DE72173A696007EB430 /* PlaceTourist.swift */; };
 		D3563DEA2173A751007EB430 /* PlaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3563DE92173A751007EB430 /* PlaceManager.swift */; };
 		D3617B4B21563FAB00E10ADF /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3617B4A21563FAB00E10ADF /* Place.swift */; };
+		D37649C121A95F8300DC7557 /* PlaceServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37649C021A95F8300DC7557 /* PlaceServices.swift */; };
 		D38C321A219F5A7B000B1161 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = D38C3219219F5A7B000B1161 /* Podfile */; };
 		D3A3DDFE2174FED6003CF46F /* EditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A3DDFD2174FED6003CF46F /* EditController.swift */; };
 		D3A3DE0021750B67003CF46F /* PlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A3DDFF21750B67003CF46F /* PlaceCell.swift */; };
+		D3AB238621A9A07800511B82 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AB238521A9A07800511B82 /* AuthViewController.swift */; };
+		D3F2197921A9FDDA0045D555 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D3F2197821A9FDDA0045D555 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2964272255E90A516ED0A002 /* Pods-MyPlaces.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPlaces.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyPlaces/Pods-MyPlaces.debug.xcconfig"; sourceTree = "<group>"; };
 		2FE2410D3799F2EE0C7E3BBD /* Pods-MyPlaces.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPlaces.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyPlaces/Pods-MyPlaces.release.xcconfig"; sourceTree = "<group>"; };
-		33626E5928B6CF7042D25CA5 /* libPods-MyPlaces.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyPlaces.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B08757BA198F76A62336774 /* Pods_MyPlaces.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyPlaces.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3304B9B219C96DA00B7F6BB /* PlaceManager+JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceManager+JSON.swift"; sourceTree = "<group>"; };
 		D3428A0E21562ECB00E94235 /* MyPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3428A1121562ECB00E94235 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,9 +46,12 @@
 		D3563DE72173A696007EB430 /* PlaceTourist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTourist.swift; sourceTree = "<group>"; };
 		D3563DE92173A751007EB430 /* PlaceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceManager.swift; sourceTree = "<group>"; };
 		D3617B4A21563FAB00E10ADF /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
-		D38C3219219F5A7B000B1161 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		D37649C021A95F8300DC7557 /* PlaceServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceServices.swift; sourceTree = "<group>"; };
+		D38C3219219F5A7B000B1161 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		D3A3DDFD2174FED6003CF46F /* EditController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditController.swift; sourceTree = "<group>"; };
 		D3A3DDFF21750B67003CF46F /* PlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCell.swift; sourceTree = "<group>"; };
+		D3AB238521A9A07800511B82 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		D3F2197821A9FDDA0045D555 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +60,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3428A292156355000E94235 /* MapKit.framework in Frameworks */,
-				4273E420D0FD3EFF10415C5D /* libPods-MyPlaces.a in Frameworks */,
+				8F637C4318226C16A48AD3A0 /* Pods_MyPlaces.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,12 +99,14 @@
 			isa = PBXGroup;
 			children = (
 				D3428A1121562ECB00E94235 /* AppDelegate.swift */,
+				D3AB238521A9A07800511B82 /* AuthViewController.swift */,
 				D3428A1321562ECB00E94235 /* TableViewController.swift */,
 				D3428A1521562ECB00E94235 /* MapViewController.swift */,
 				D3428A25215633F200E94235 /* DetailController.swift */,
 				D3A3DDFD2174FED6003CF46F /* EditController.swift */,
 				D3428A1721562ECB00E94235 /* Main.storyboard */,
 				D3428A1A21562ECC00E94235 /* Assets.xcassets */,
+				D3F2197821A9FDDA0045D555 /* GoogleService-Info.plist */,
 				D3428A1C21562ECC00E94235 /* LaunchScreen.storyboard */,
 				D3428A1F21562ECC00E94235 /* Info.plist */,
 				D3A3DDFF21750B67003CF46F /* PlaceCell.swift */,
@@ -106,6 +114,7 @@
 				D3563DE72173A696007EB430 /* PlaceTourist.swift */,
 				D3563DE92173A751007EB430 /* PlaceManager.swift */,
 				D3304B9B219C96DA00B7F6BB /* PlaceManager+JSON.swift */,
+				D37649C021A95F8300DC7557 /* PlaceServices.swift */,
 			);
 			path = MyPlaces;
 			sourceTree = "<group>";
@@ -114,7 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				D3428A282156355000E94235 /* MapKit.framework */,
-				33626E5928B6CF7042D25CA5 /* libPods-MyPlaces.a */,
+				6B08757BA198F76A62336774 /* Pods_MyPlaces.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -131,6 +140,7 @@
 				D3428A0B21562ECB00E94235 /* Frameworks */,
 				D3428A0C21562ECB00E94235 /* Resources */,
 				9AFB70D77EE4EB91AEC30DA4 /* [CP] Copy Pods Resources */,
+				59CCF3EB451DE55724DFCC37 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -186,6 +196,7 @@
 			files = (
 				D3428A1E21562ECC00E94235 /* LaunchScreen.storyboard in Resources */,
 				D3428A1B21562ECC00E94235 /* Assets.xcassets in Resources */,
+				D3F2197921A9FDDA0045D555 /* GoogleService-Info.plist in Resources */,
 				D38C321A219F5A7B000B1161 /* Podfile in Resources */,
 				D34C8FB6215BF45E00A3FF36 /* Main.storyboard in Resources */,
 			);
@@ -194,6 +205,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		59CCF3EB451DE55724DFCC37 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MyPlaces/Pods-MyPlaces-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyPlaces/Pods-MyPlaces-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9AFB70D77EE4EB91AEC30DA4 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -254,9 +293,11 @@
 				D3428A1621562ECB00E94235 /* MapViewController.swift in Sources */,
 				D3428A1221562ECB00E94235 /* AppDelegate.swift in Sources */,
 				D3563DEA2173A751007EB430 /* PlaceManager.swift in Sources */,
+				D3AB238621A9A07800511B82 /* AuthViewController.swift in Sources */,
 				D3428A1421562ECB00E94235 /* TableViewController.swift in Sources */,
 				D3617B4B21563FAB00E10ADF /* Place.swift in Sources */,
 				D3A3DE0021750B67003CF46F /* PlaceCell.swift in Sources */,
+				D37649C121A95F8300DC7557 /* PlaceServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
