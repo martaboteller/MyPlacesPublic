@@ -25,7 +25,11 @@ import Firebase
 //     2) automatically adopts both UITableViewDelegate and UITableViewDataSource protocols.
 class TableViewController: UITableViewController {
     
-   
+    
+    //Global variables
+    var user: User?
+    var manager = PlaceManager.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,13 +38,17 @@ class TableViewController: UITableViewController {
         view.delegate = self
         view.dataSource = self
         
+        let user: User = PlaceManager.shared.returnUserInfo()
+        print(user.name)
+        print(user.surname)
+        
         //Show logo instead of application name
         self.navigationItem.titleView = UIImageView(image: UIImage(named: "appLogo.png"))
         self.navigationItem.titleView?.tintColor = UIColor.white
         
         //I want to remove this part from here
             //Initialize Manager
-            let manager = PlaceManager.shared
+            /*let manager = PlaceManager.shared
             
             //Define paths and files where data will be stored
             let fileManager = FileManager.default
@@ -80,8 +88,24 @@ class TableViewController: UITableViewController {
             } catch {
                 print ("Unable to read from : " + path.path)
             }
-        //End part to remove
+        	End part to remove*/
         
+    }
+    @IBAction func logOutAction(_ sender: Any) {
+        if Auth.auth().currentUser != nil {
+            do {
+                try Auth.auth().signOut()
+                let places = self.manager.returnSaved()
+                for p in places {
+                   self.manager.remove(p)
+                }
+                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AuthViewController")
+                present(vc, animated: true, completion: nil)
+                
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
     }
     
     //Restrict rotation

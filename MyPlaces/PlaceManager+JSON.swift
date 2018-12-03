@@ -86,6 +86,8 @@ extension PlaceManager  {
         return places
     }
     
+    
+    
     //Saves image at default documents directory assigning a unique name
     //Returns image name
     func saveImage(image: Data)-> String {

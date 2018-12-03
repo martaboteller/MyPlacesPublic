@@ -12,82 +12,135 @@ import Firebase
 class AuthViewController: UIViewController {
     
   
+   
+    @IBOutlet weak var forgotPasswordButton: UIButton!{
+        didSet{
+            forgotPasswordButton.titleLabel!.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
+        }
+    }
+    @IBOutlet weak var signUpButton: UIButton!{
+        didSet{
+            signUpButton.titleLabel!.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
+        }
+    }
+    @IBOutlet weak var guestButton: UIButton!{
+        didSet{
+            guestButton.layer.cornerRadius = 25
+            guestButton.layer.borderColor = UIColor.white.cgColor
+            guestButton.layer.borderWidth = 2
+            guestButton.backgroundColor = .clear
+        }
+    }
+    @IBOutlet weak var emailTextField: UITextField!{
+        didSet{
+            emailTextField.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 20)
+        }
+    }
+    @IBOutlet weak var passwordTextField: UITextField!{
+        didSet{
+            passwordTextField.isSecureTextEntry = true
+            passwordTextField.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 20)
+        }
+    }
+   
     @IBOutlet weak var logIn: UIButton!
     
+    //Static properties
+    static let notificationName = Notification.Name("messagesFromLogIn")
     var myImage: Data = Data()
-  
-    override func viewWillAppear(_ animated: Bool) {
-       
-     
-    }
+    var user: User?
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        // - TEST -
-        //Download task 1
-        let storage = Storage.storage()
-        let globalReference = storage.reference()
-        let ref = globalReference.child("demoJSON/demoPlaces.json")
-        let dic = PlaceServices.shared.downloadFile(reference: ref)
-        let data: [Place] = dic.keys.first!
-        let downloadTask: StorageDownloadTask = dic.values.first!
-       
-       
-        //Download task 2
-        let ref2 = globalReference.child("demoImages/5.png")
-        let dic2 = PlaceServices.shared.downloadImage(reference: ref2)
-        let data2: Data = dic2.keys.first!
-        let downloadTask2: StorageDownloadTask = dic2.values.first!
-      
+       super.viewDidLoad()
+       self.hideKeyboardWhenTappedAround()
         
-        downloadTask.observe(.success) { snapshot in
-            print("Download task 1 finished!")
-            print("Number of elements in place array \(data.count)")
+        //Listen for events related to Firebase Authentication
+        NotificationCenter.default.addObserver(self, selector: #selector(onNotification(notification:)), name: AuthViewController.notificationName, object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        PlaceServices.shared.downloadDemoData(success: {(myArray) in
+            print("Success!")
+        }) { (error) in
+            let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            alertController.addAction(defaultAction)
+            self.present(alertController, animated: true)
         }
-        
-        downloadTask2.observe(.success) { snapshot in
-            print("Download task 2 finished!")
-            print("Data count \(data2.count)")
-            let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let imageURL = docsPath.appendingPathComponent("test.png")
-            do{
-                try data2.write(to: imageURL)
-            } catch {
-                print (error)
-            }
-        }
+    }
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AuthViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
        
     }
     
-  
+    deinit {
+         NotificationCenter.default.removeObserver(self, name: AuthViewController.notificationName, object: nil)
+    }
+    
+    @objc func onNotification(notification:Notification){
+        let alertController = UIAlertController(title: notification.userInfo?["result"] as? String, message: "", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(defaultAction)
+        self.present(alertController, animated: true)
+    }
+    
+    @IBAction func continueAsGuest(_ sender: Any) {
+        self.performSegue(withIdentifier: "AccessAsGuest", sender: "")
+    }
+    @IBAction func retrivePassword(_ sender: Any) {
+        performSegue(withIdentifier: "ForgottenPass", sender: "UserNamePassword")
+    }
+    @IBAction func signUpAction(_ sender: Any) {
+        performSegue(withIdentifier: "SignUp", sender: "UserNamePassword")
+    }
     
     @IBAction func logInAction(_ sender: Any) {
-        performSegue(withIdentifier: "AccessApp", sender: "UserNamePassword")
+        //performSegue(withIdentifier: "AccessApp", sender: "UserNamePassword")
+        if emailTextField.text == "" || passwordTextField.text == "" {
+            let alertController = UIAlertController(title: "Error", message: "Required fiels missing", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            alertController.addAction(defaultAction)
+            self.present(alertController, animated: true)
+        } else {
+            PlaceServices.shared.logIn(email: emailTextField.text!, password: passwordTextField.text!,success: {
+                (user) in
+                //Access App
+               self.performSegue(withIdentifier: "AccessApp", sender: "")
+                
+            }) { (error) in
+                let alertController = UIAlertController(title: error.localizedDescription, message: "", preferredStyle: .alert)
+                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alertController.addAction(defaultAction)
+                self.present(alertController, animated: true)
+            }
+        }
     }
-    
-    //func retrieveDemoImages () -> [Data] {
-        //General variables
-//        let storage = Storage.storage()
-//        let globalReference = storage.reference()
-//        var imageArray: [Data] = [Data()]
-//
-      
-//        for i in 1...5 {
-//            let demoImageRef = globalReference.child("demoImages/\(i).png")
-//            print(demoImageRef.bucket)
-//            print(demoImageRef.fullPath)
-//            let imageData = PlaceServices.shared.downloadImage(reference: demoImageRef)
-//            imageArray.append(imageData)
-//        }
-       // return imageArray
-   // }
-    
     
     
     override func prepare(for segue: UIStoryboardSegue , sender: Any?) {
         if segue.identifier == "AccessApp" {
-
+            /*let barViewControllers = segue.destination
+                as? UITabBarController
+            let nav = barViewControllers?.viewControllers![0] as! UINavigationController
+            let destination = nav.topViewController as! TableViewController
+            destination.user = sender as? User*/
+        }
+        if segue.identifier == "SignUp" {
+        }
+        if segue.identifier == "ForgottenPass" {
+        }
+        if segue.identifier == "AccessAsGuest" {
+            
         }
     }
+
+    
     
 }

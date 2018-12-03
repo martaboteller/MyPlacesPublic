@@ -19,6 +19,7 @@
 		D34C8FB6215BF45E00A3FF36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3428A1721562ECB00E94235 /* Main.storyboard */; };
 		D3563DE82173A696007EB430 /* PlaceTourist.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3563DE72173A696007EB430 /* PlaceTourist.swift */; };
 		D3563DEA2173A751007EB430 /* PlaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3563DE92173A751007EB430 /* PlaceManager.swift */; };
+		D360360A21B281E600F04950 /* ForgottenPassController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D360360921B281E600F04950 /* ForgottenPassController.swift */; };
 		D3617B4B21563FAB00E10ADF /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3617B4A21563FAB00E10ADF /* Place.swift */; };
 		D37649C121A95F8300DC7557 /* PlaceServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37649C021A95F8300DC7557 /* PlaceServices.swift */; };
 		D38C321A219F5A7B000B1161 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = D38C3219219F5A7B000B1161 /* Podfile */; };
@@ -26,6 +27,8 @@
 		D3A3DE0021750B67003CF46F /* PlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A3DDFF21750B67003CF46F /* PlaceCell.swift */; };
 		D3AB238621A9A07800511B82 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AB238521A9A07800511B82 /* AuthViewController.swift */; };
 		D3F2197921A9FDDA0045D555 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D3F2197821A9FDDA0045D555 /* GoogleService-Info.plist */; };
+		D3F2B96121B42CA000E82940 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F2B96021B42CA000E82940 /* User.swift */; };
+		D3F7534F21B1CBEA00195D7A /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F7534E21B1CBEA00195D7A /* SignUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +48,7 @@
 		D3428A282156355000E94235 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		D3563DE72173A696007EB430 /* PlaceTourist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTourist.swift; sourceTree = "<group>"; };
 		D3563DE92173A751007EB430 /* PlaceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceManager.swift; sourceTree = "<group>"; };
+		D360360921B281E600F04950 /* ForgottenPassController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgottenPassController.swift; sourceTree = "<group>"; };
 		D3617B4A21563FAB00E10ADF /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		D37649C021A95F8300DC7557 /* PlaceServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceServices.swift; sourceTree = "<group>"; };
 		D38C3219219F5A7B000B1161 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -52,6 +56,8 @@
 		D3A3DDFF21750B67003CF46F /* PlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCell.swift; sourceTree = "<group>"; };
 		D3AB238521A9A07800511B82 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		D3F2197821A9FDDA0045D555 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		D3F2B96021B42CA000E82940 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		D3F7534E21B1CBEA00195D7A /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +106,8 @@
 			children = (
 				D3428A1121562ECB00E94235 /* AppDelegate.swift */,
 				D3AB238521A9A07800511B82 /* AuthViewController.swift */,
+				D3F7534E21B1CBEA00195D7A /* SignUpViewController.swift */,
+				D360360921B281E600F04950 /* ForgottenPassController.swift */,
 				D3428A1321562ECB00E94235 /* TableViewController.swift */,
 				D3428A1521562ECB00E94235 /* MapViewController.swift */,
 				D3428A25215633F200E94235 /* DetailController.swift */,
@@ -111,6 +119,7 @@
 				D3428A1F21562ECC00E94235 /* Info.plist */,
 				D3A3DDFF21750B67003CF46F /* PlaceCell.swift */,
 				D3617B4A21563FAB00E10ADF /* Place.swift */,
+				D3F2B96021B42CA000E82940 /* User.swift */,
 				D3563DE72173A696007EB430 /* PlaceTourist.swift */,
 				D3563DE92173A751007EB430 /* PlaceManager.swift */,
 				D3304B9B219C96DA00B7F6BB /* PlaceManager+JSON.swift */,
@@ -289,14 +298,17 @@
 				D3563DE82173A696007EB430 /* PlaceTourist.swift in Sources */,
 				D3304B9C219C96DA00B7F6BB /* PlaceManager+JSON.swift in Sources */,
 				D3A3DDFE2174FED6003CF46F /* EditController.swift in Sources */,
+				D360360A21B281E600F04950 /* ForgottenPassController.swift in Sources */,
 				D3428A26215633F200E94235 /* DetailController.swift in Sources */,
 				D3428A1621562ECB00E94235 /* MapViewController.swift in Sources */,
 				D3428A1221562ECB00E94235 /* AppDelegate.swift in Sources */,
 				D3563DEA2173A751007EB430 /* PlaceManager.swift in Sources */,
+				D3F2B96121B42CA000E82940 /* User.swift in Sources */,
 				D3AB238621A9A07800511B82 /* AuthViewController.swift in Sources */,
 				D3428A1421562ECB00E94235 /* TableViewController.swift in Sources */,
 				D3617B4B21563FAB00E10ADF /* Place.swift in Sources */,
 				D3A3DE0021750B67003CF46F /* PlaceCell.swift in Sources */,
+				D3F7534F21B1CBEA00195D7A /* SignUpViewController.swift in Sources */,
 				D37649C121A95F8300DC7557 /* PlaceServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

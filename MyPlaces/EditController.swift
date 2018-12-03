@@ -15,14 +15,48 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     //var ref: DatabaseReference!
    
     //Storyboard references
-    @IBOutlet weak var coordinatesLabel: UILabel!
-    @IBOutlet weak var textFieldCoord: UITextField!
-    @IBOutlet weak var placeName: UITextField!
-    @IBOutlet weak var placeDescription: UITextView!
+    @IBOutlet weak var coordinatesLabel: UILabel!{
+        didSet{
+            coordinatesLabel.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
+        }
+    }
+    @IBOutlet weak var textFieldCoord: UITextField!{
+        didSet{
+            textFieldCoord.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
+        }
+    }
+    @IBOutlet weak var placeName: UITextField!{
+        didSet{
+              placeName.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 17)
+        }
+    }
+    @IBOutlet weak var placeDescription: UITextView!{
+        didSet{
+            placeDescription.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
+            placeDescription.delegate?.textViewDidChange!(placeDescription)
+            placeDescription.textContainer.maximumNumberOfLines = 7
+            placeDescription.textContainer.lineBreakMode = .byWordWrapping
+        }
+    }
     @IBOutlet weak var imgEdit: UIImageView!
-    @IBOutlet weak var editTitleBar: UINavigationItem!
-    @IBOutlet weak var placeholderLabel: UILabel!
-    @IBOutlet weak var selectImg: UIButton!
+    @IBOutlet weak var editTitleBar: UINavigationItem!{
+        didSet{
+            editTitleBar.titleView =  UIImageView(image: UIImage(named: "appLogo.png"))
+            editTitleBar.titleView?.tintColor = UIColor.white
+        }
+    }
+    @IBOutlet weak var placeholderLabel: UILabel!{
+        didSet{
+            placeholderLabel.text = "Place description..."
+            placeholderLabel.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
+            placeholderLabel.textColor = UIColor.lightGray
+        }
+    }
+    @IBOutlet weak var selectImg: UIButton!{
+        didSet{
+             selectImg.tintColor = UIColor.white
+        }
+    }
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var saveEdit: UIBarButtonItem!
     @IBOutlet weak var cancelEdit: UIBarButtonItem!
@@ -42,26 +76,19 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Change the application title for a logo
-        editTitleBar.titleView =  UIImageView(image: UIImage(named: "appLogo.png"))
-        editTitleBar.titleView?.tintColor = UIColor.white
+        //Listen for keyboard events
+        //placeDescription.delegate = self
         
-        //Format name and description texts
-        placeName.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 17)
-        placeDescription.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
-        coordinatesLabel.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
-        textFieldCoord.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
+        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillChange(notification:)),name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillChange(notification:)),name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillChange(notification:)),name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        self.hideKeyboardWhenTappedAround()
         
         //Format placeholder for place description
-        placeholderLabel.text = "Place description..."
-        placeholderLabel.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
-        placeholderLabel.textColor = UIColor.lightGray
-        placeDescription.delegate?.textViewDidChange!(placeDescription)
-        placeDescription.textContainer.maximumNumberOfLines = 7
-        placeDescription.textContainer.lineBreakMode = .byWordWrapping
-        
-        //Format button that selects new image
-        selectImg.tintColor = UIColor.white
+      
         
         //Save location of working file
         defaultDocsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -87,7 +114,44 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             stringImage = "defaultImage.png"
         }
     }
-
+    
+    
+    
+   //Manage keyboard position
+    deinit {
+        NotificationCenter.default.removeObserver(self,name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.removeObserver(self,name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        NotificationCenter.default.removeObserver(self,name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    func hideKeyboard(){
+        placeDescription.resignFirstResponder()
+    }
+    
+    @objc func keyboardWillChange(notification: Notification){
+        guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+        if notification.name == UIResponder.keyboardWillShowNotification ||
+            notification.name == UIResponder.keyboardWillChangeFrameNotification {
+            view.frame.origin.y = -keyboardRect.height
+        }else{
+            view.frame.origin.y = 0
+        }
+    }
+  
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(EditController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -188,7 +252,9 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     //Go back to previous screen
     @IBAction func cancelEdit(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        //dismiss(animated: true, completion: nil)
+        //Go back to previous view
+        performSegue(withIdentifier: "UnwindGoDetail", sender: place)
     }
     
     @IBAction func goFindCoordinates(_ sender: Any) {

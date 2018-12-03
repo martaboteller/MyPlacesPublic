@@ -11,12 +11,30 @@ import UIKit
 class DetailController: UIViewController {
 
     //Storyboard references
-    @IBOutlet weak var typePlace: UILabel!
+    @IBOutlet weak var typePlace: UILabel!{
+        didSet{
+            typePlace.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
+        }
+    }
     @IBOutlet weak var iconPlace: UIImageView!
-    @IBOutlet weak var descriptionPlace: UITextView!
-    @IBOutlet weak var detailTitleBar: UINavigationItem!
+    @IBOutlet weak var namePlace: UILabel!{
+        didSet{
+            namePlace.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 20)
+        }
+    }
+    @IBOutlet weak var descriptionPlace: UITextView!{
+        didSet{
+             descriptionPlace.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
+        }
+    }
+    @IBOutlet weak var detailTitleBar: UINavigationItem!{
+        didSet{
+            detailTitleBar.titleView =  UIImageView(image: UIImage(named: "appLogo.png"))
+            detailTitleBar.titleView?.tintColor = UIColor.white
+        }
+    }
     @IBOutlet weak var imgDetail: UIImageView!
-    @IBOutlet weak var namePlace: UILabel!
+   
     
     //Global variables
     var place: Place?
@@ -25,15 +43,6 @@ class DetailController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Change the application title for a logo
-        detailTitleBar.titleView =  UIImageView(image: UIImage(named: "appLogo.png"))
-        detailTitleBar.titleView?.tintColor = UIColor.white
-        
-        //Format text fields
-        namePlace.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 20)
-        descriptionPlace.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
-        typePlace.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
-
         // MARK: - Fill elements with place info
         if let place = place {
         
@@ -64,9 +73,9 @@ class DetailController: UIViewController {
     
     @IBAction func Back(_ sender: Any) {
         //Nothing changed, just go back.
-        let vc = self.storyboard?.instantiateInitialViewController()
-        self.present(vc!, animated: false, completion: nil)
-    }
+       // let vc = self.storyboard?.instantiateInitialViewController()
+       // self.present(vc!, animated: false, completion: nil)
+        dismiss(animated: true, completion: nil)    }
 
     @IBAction func editPlace(_ sender: Any) {
         //Allow to jump to EditController if displaying a place

@@ -40,12 +40,23 @@ class PlaceManager {
     // the methods below, but all instances in our project calling methods in PlaceManager won't
     // be affected, because using an array or something else is just a private detail.
     private var places = [Place]()
+    private var user = User()
     
     var reference = Storage.storage().reference()
+    
     
     //Returns an array with all saved places
     func returnSaved ()-> [Place]{
         return self.places
+    }
+    
+    //Returns User info
+    func returnUserInfo()-> User {
+        return self.user
+    }
+    
+    func defineCurrentUser(_ currentUser: User){
+        user = currentUser
     }
     
     // Inserts a new place into list of places managed by PlaceManager.

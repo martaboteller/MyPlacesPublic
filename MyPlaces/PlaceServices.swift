@@ -12,12 +12,9 @@ import Firebase
 class PlaceServices {
     
     static let shared = PlaceServices()
-    
-    enum metadataContentType: String {
-        case image
-        case json
-    }
-    
+    //Initialize Manager
+    let manager = PlaceManager.shared
+  
     private init() {
     }
     
@@ -44,55 +41,130 @@ class PlaceServices {
         return uploadTask
     }
     
-    //Function that downloads an image from Firebase storage
-    func downloadImage (reference: StorageReference) -> [Data : StorageDownloadTask] {
-        var myReturn: [Data : StorageDownloadTask] = [Data: StorageDownloadTask]()
-        var imageData: Data = Data()
-        let downloadTask = reference.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
+    
+    
+    //Function that downloads all images from a folder path in Firebase Storage
+    func downloadDemoData(success:@escaping (_ arrayPlaces: [Place])->(),failure:@escaping (_ error:Error)->()){
+        //Download json demo data
+        let jsonRef = Storage.storage().reference(withPath: "demo/demo.json")
+        jsonRef.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
             if let _error = error{
                 print(_error)
+                failure(_error)
             } else {
                 if let _data  = data {
-                    let myImage:UIImage! = UIImage(data: _data)
-                    imageData = myImage.pngData()!
+                    let placesArray = PlaceManager.shared.placesFrom(jsonData: _data)
+                    //Download demo images
+                    let numImages: Int = placesArray.count
+                    for i in 0...numImages-1{
+                        let imageRef = Storage.storage().reference(withPath: "demo/\(i).png")
+                        imageRef.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
+                            if let _error = error{
+                                print(_error)
+                                failure(_error)
+                            } else {
+                                if let _data  = data {
+                                    let myImage: Data = (UIImage(data: _data)?.pngData())!
+                                    placesArray[i].image = myImage
+                                    //Append places into manager
+                                    self.manager.append(placesArray[i])
+                                    success(placesArray)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-        myReturn = [imageData : downloadTask]
-      return myReturn
     }
     
-    //Function that downloads a file from Firebase storage
-    func downloadFile (reference: StorageReference) -> [[Place]: StorageDownloadTask] {
-        var myReturn: [[Place] : StorageDownloadTask] = [[Place]: StorageDownloadTask]()
-        var placesData: [Place] = [Place]()
-        let downloadTask = reference.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
+    
+    
+    //Function that downloads all images from a folder path in Firebase Storage
+    /*func downloadUserData(success:@escaping (_ arrayPlaces: [Place])->(),failure:@escaping (_ error:Error)->()){
+        //Download json user's data
+        let jsonRef = Storage.storage().reference(withPath: "user/demo.json")
+        jsonRef.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
             if let _error = error{
                 print(_error)
+                failure(_error)
             } else {
                 if let _data  = data {
-                    let placesData =  PlaceManager.shared.placesFrom(jsonData: data!)
+                    let placesArray = PlaceManager.shared.placesFrom(jsonData: _data)
+                    //Download demo images
+                    let numImages: Int = placesArray.count
+                    for index in 0...numImages-1 {
+                        let imageRef = Storage.storage().reference(withPath: "demo/\(index).png")
+                        imageRef.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
+                            if let _error = error{
+                                print(_error)
+                                failure(_error)
+                            } else {
+                                if let _data  = data {
+                                    let myImage: Data = (UIImage(data: _data)?.pngData())!
+                                    placesArray[index].image = myImage
+                                    //Append places into manager
+                                    self.manager.append(placesArray[index])
+                                    success(placesArray)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-        myReturn = [placesData : downloadTask]
-        return myReturn
+    }*/
+
+    func createAccount(name: String, surname: String, email: String, password: String) {
+        //Save email and password in Authentication Firebase
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            var userInfo: String
+                if error == nil {
+                    userInfo = "successfullSignUp"
+                    //Upload name and surname into Database
+                    let userID = Auth.auth().currentUser!.uid
+                    let ref: DatabaseReference! = Database.database().reference()
+                    ref.child("users").child(userID).setValue(["name": name, "surname": surname])
+                } else {
+                    userInfo = (error?.localizedDescription)!
+                }
+            NotificationCenter.default.post(name: SignUpViewController.notificationName, object: nil, userInfo:["result": userInfo])
+        }
     }
     
-    //Testing database writing
-    /*ref.child("UsersData").childByAutoId().setValue("Hello, World!")
-     do {
-     let defaultDocsPath: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-     let defaultFileURL: URL  = defaultDocsPath.appendingPathComponent("userPlaces.json")
-     let jsonData = try Data.init(contentsOf: defaultFileURL)
-     
-     let myArray: NSArray = PlaceManager.shared.placesFrom(jsonData: jsonData) as NSArray
-     let arrayOne: NSDictionary = ["Hi":"Hello", "Hello, World!": "Again","Number": 42]
-     ref.child("UsersData").setValue(arrayOne)
-     
-     } catch {
-     print (error)
-     }*/
+    func sendPasswordReset (email: String) {
+        Auth.auth().sendPasswordReset(withEmail: email, completion: { (error) in
+            var userInfo: String
+            if error != nil {
+                userInfo = (error?.localizedDescription)!
+            } else {
+                userInfo = "successfullPasswordReset"
+            }
+             NotificationCenter.default.post(name: ForgottenPassController.notificationName, object: nil, userInfo:["result": userInfo])
+        })
+    }
     
-   
+    func logIn (email: String, password: String, success:@escaping (_ user: User)-> (),failure:@escaping (_ error:Error)->()) {
+        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+            if let _error = error{
+                failure(_error)
+            }else{
+               //Retrive user's data
+               let userID = Auth.auth().currentUser!.uid
+               let ref: DatabaseReference! = Database.database().reference()
+               ref.child("users").child(userID)
+                    .observeSingleEvent(of: .value, with: { (snapshot) in
+                        
+               let userDict = snapshot.value as! [String: Any]
+               let name = userDict["name"] as! String
+               let surname = userDict["surname"] as! String
+               let user = User(name: name, surname: surname, userID: userID)
+               self.manager.defineCurrentUser(user)
+               success(user)
+            })
+           }
+        }
+    }
+    
+    
 }
