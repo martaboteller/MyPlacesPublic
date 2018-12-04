@@ -91,7 +91,9 @@ class TableViewController: UITableViewController {
         	End part to remove*/
         
     }
-    @IBAction func logOutAction(_ sender: Any) {
+    
+    
+    /*@IBAction func logOutAction(_ sender: Any) {
         if Auth.auth().currentUser != nil {
             do {
                 try Auth.auth().signOut()
@@ -106,7 +108,7 @@ class TableViewController: UITableViewController {
                 print(error.localizedDescription)
             }
         }
-    }
+    }*/
     
     //Restrict rotation
     override open var shouldAutorotate: Bool {
@@ -175,6 +177,10 @@ class TableViewController: UITableViewController {
     // screen? OK. When we ask the app to take any road (performSegue), iOS will call this method
     // in case any preparation is required. In this case, we're only checking which road to take
     // and, if it is the "ShowPlaceDetail" one, we send the place object to the destination screen.
+    @IBAction func displayDropDown(_ sender: Any) {
+         performSegue(withIdentifier: "popoverSegue", sender: self)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowPlaceDetail" {
             if let dc = segue.destination as? DetailController {

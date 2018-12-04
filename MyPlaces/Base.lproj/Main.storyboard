@@ -873,12 +873,20 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Places" id="ZV8-8Y-gWR">
-                        <barButtonItem key="leftBarButtonItem" title="Log Out" id="xS8-hm-wBG">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <action selector="logOutAction:" destination="7xI-TI-QAn" id="9NU-xQ-qTK"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem title="Log Out" id="xS8-hm-wBG">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="logOutAction:" destination="7xI-TI-QAn" id="9NU-xQ-qTK"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Pop" id="Tmi-Ko-O3P">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="displayDropDown:" destination="7xI-TI-QAn" id="D3A-Kq-MuD"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Auv-F4-IV2">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -1078,7 +1086,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Sk-rF-NOp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3900" y="-143"/>
+            <point key="canvasLocation" x="4068" y="-143"/>
         </scene>
         <!--Edit Controller-->
         <scene sceneID="iWS-DL-Kq8">
