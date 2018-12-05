@@ -92,8 +92,7 @@ extension PlaceManager  {
     //Returns image name
     func saveImage(image: Data)-> String {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        //let fileName = "Image:" + UUID().uuidString + ".png"
-        let fileName = "test.json"
+        let fileName = "Image:" + UUID().uuidString + ".png"
         let fileURL = documentsDirectory.appendingPathComponent(fileName)
         
         // Check if the destination file already exists

@@ -28,7 +28,6 @@ class PlaceManager {
     // https://cocoacasts.com/what-is-a-singleton-and-how-to-create-one-in-swift
     static let shared = PlaceManager()
     
-   
     private init() {
     }
     
@@ -43,7 +42,6 @@ class PlaceManager {
     private var user = User()
     
     var reference = Storage.storage().reference()
-    
     
     //Returns an array with all saved places
     func returnSaved ()-> [Place]{

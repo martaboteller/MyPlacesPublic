@@ -10,8 +10,6 @@ import MapKit
 import Firebase
 
 class AuthViewController: UIViewController {
-    
-  
    
     @IBOutlet weak var forgotPasswordButton: UIButton!{
         didSet{
@@ -46,8 +44,8 @@ class AuthViewController: UIViewController {
     @IBOutlet weak var logIn: UIButton!
     
     //Static properties
-    static let notificationName = Notification.Name("messagesFromLogIn")
-    var myImage: Data = Data()
+    static let msgFromLogIn = Notification.Name("messagesFromLogIn")
+    
     var user: User?
     
     override func viewDidLoad() {
@@ -55,18 +53,22 @@ class AuthViewController: UIViewController {
        self.hideKeyboardWhenTappedAround()
         
         //Listen for events related to Firebase Authentication
-        NotificationCenter.default.addObserver(self, selector: #selector(onNotification(notification:)), name: AuthViewController.notificationName, object: nil)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        PlaceServices.shared.downloadDemoData(success: {(myArray) in
-            print("Success!")
-        }) { (error) in
-            let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            alertController.addAction(defaultAction)
-            self.present(alertController, animated: true)
+        NotificationCenter.default.addObserver(self, selector: #selector(onNotification(notification:)), name: AuthViewController.msgFromLogIn, object: nil)
+        
+        /*var myRef = Storage.storage().reference()
+        myRef = myRef.child("users/44dJLgDAK4bnoyHNfo9Qcl0BQau2/3.png")
+        let myData = UIImage(named: "first")?.pngData()
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileName = "savedPlaces.json"
+        let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        do{
+            let jsonData = try Data.init(contentsOf: fileURL)
+             PlaceServices.shared.uploadData(reference: myRef, dataToUpload: jsonData, metadataContentType: "json")
+        } catch{
+                print(error)
         }
+        PlaceServices.shared.deleteData(reference: myRef, fileName: "3.png")*/
+        
     }
     
     func hideKeyboardWhenTappedAround() {
@@ -77,11 +79,10 @@ class AuthViewController: UIViewController {
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
-       
     }
     
     deinit {
-         NotificationCenter.default.removeObserver(self, name: AuthViewController.notificationName, object: nil)
+         NotificationCenter.default.removeObserver(self, name: AuthViewController.msgFromLogIn, object: nil)
     }
     
     @objc func onNotification(notification:Notification){
@@ -91,18 +92,29 @@ class AuthViewController: UIViewController {
         self.present(alertController, animated: true)
     }
     
+    //Log in as Guest, will load demo data into TableViewController
     @IBAction func continueAsGuest(_ sender: Any) {
-        self.performSegue(withIdentifier: "AccessAsGuest", sender: "")
+        PlaceServices.shared.downloadDemoData(success: {(myArray) in
+            self.performSegue(withIdentifier: "AccessApp", sender: myArray)
+         }) { (error) in
+         let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+         let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+         alertController.addAction(defaultAction)
+         self.present(alertController, animated: true)
+         }
     }
+    //Go to ForgottenPassViewController view and make the user type an email
     @IBAction func retrivePassword(_ sender: Any) {
         performSegue(withIdentifier: "ForgottenPass", sender: "UserNamePassword")
     }
+    
+    //Go to SignUpViewController view and allow user to create an account
     @IBAction func signUpAction(_ sender: Any) {
         performSegue(withIdentifier: "SignUp", sender: "UserNamePassword")
     }
     
+    //Log in (authenticate) and access the app with the user's profile/data
     @IBAction func logInAction(_ sender: Any) {
-        //performSegue(withIdentifier: "AccessApp", sender: "UserNamePassword")
         if emailTextField.text == "" || passwordTextField.text == "" {
             let alertController = UIAlertController(title: "Error", message: "Required fiels missing", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -112,8 +124,14 @@ class AuthViewController: UIViewController {
             PlaceServices.shared.logIn(email: emailTextField.text!, password: passwordTextField.text!,success: {
                 (user) in
                 //Access App
-               self.performSegue(withIdentifier: "AccessApp", sender: "")
-                
+                PlaceServices.shared.downloadUserData(userID:user.userID,success: {(myArray) in
+                    self.performSegue(withIdentifier: "AccessApp", sender: myArray)
+                }) { (error) in
+                    let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    alertController.addAction(defaultAction)
+                    self.present(alertController, animated: true)
+                }
             }) { (error) in
                 let alertController = UIAlertController(title: error.localizedDescription, message: "", preferredStyle: .alert)
                 let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -126,21 +144,13 @@ class AuthViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue , sender: Any?) {
         if segue.identifier == "AccessApp" {
-            /*let barViewControllers = segue.destination
-                as? UITabBarController
-            let nav = barViewControllers?.viewControllers![0] as! UINavigationController
-            let destination = nav.topViewController as! TableViewController
-            destination.user = sender as? User*/
-        }
-        if segue.identifier == "SignUp" {
-        }
-        if segue.identifier == "ForgottenPass" {
-        }
-        if segue.identifier == "AccessAsGuest" {
-            
+            if let tbc = segue.destination as? UITabBarController {
+                let nc = tbc.viewControllers![0] as! UINavigationController
+                let dc = nc.topViewController as! TableViewController
+                dc.places = sender as? [Place]
+            }
         }
     }
-
     
     
 }

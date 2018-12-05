@@ -11,9 +11,6 @@ import Firebase
 
 class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
     
-    //Reference to our FirebaseDatabase
-    //var ref: DatabaseReference!
-   
     //Storyboard references
     @IBOutlet weak var coordinatesLabel: UILabel!{
         didSet{
@@ -64,6 +61,8 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
 
     //Global variables
     var place: Place?
+    let logedUser = PlaceManager.shared.returnUserInfo()
+    var reference: StorageReference = Storage.storage().reference()
     var pickerData: [String] = ["Generic Place", "Touristic Place"]
     var pickerImg = UIImagePickerController()
     var idPlace: String = ""
@@ -77,8 +76,6 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         super.viewDidLoad()
         
         //Listen for keyboard events
-        //placeDescription.delegate = self
-        
         NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillChange(notification:)),name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillChange(notification:)),name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -87,13 +84,10 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         self.hideKeyboardWhenTappedAround()
         
-        //Format placeholder for place description
-      
-        
-        //Save location of working file
+        /*//Save location of working file
         defaultDocsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         defaultImageURL = defaultDocsPath!.appendingPathComponent("defaultImage.png")
-        defaultFileURL = defaultDocsPath!.appendingPathComponent("userPlaces.json")
+        defaultFileURL = defaultDocsPath!.appendingPathComponent("userPlaces.json")*/
        
         //Connect data
         self.placeDescription.delegate = self
@@ -114,8 +108,6 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             stringImage = "defaultImage.png"
         }
     }
-    
-    
     
    //Manage keyboard position
     deinit {
@@ -174,14 +166,21 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         pickerImg.sourceType = .photoLibrary
         pickerImg.allowsEditing = true
         present(pickerImg, animated: true, completion: nil)
-        stringImage = "ImageChanged"
+        //stringImage = "ImageChanged"
     }
   
     //Remove edited place
     @IBAction func removeEdit(_ sender: Any) {
-    //Don't need to remove new place
+        if logedUser.userID == "" {
+            let alertController = UIAlertController(title:"Only registered users can remove places", message: "", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            alertController.addAction(defaultAction)
+            self.present(alertController, animated: true)
+        } else {
+        //Don't need to remove new place
         if idPlace == "" {
-            dismiss(animated: true, completion: nil)
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailController")
+            self.present(vc, animated: false, completion: nil)
         //Update existing place
         } else {
             //Delete image from file
@@ -192,26 +191,46 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             //Delete place from manager
             MyPlaces.PlaceManager.shared.remove(retrievePlace(image: (imgEdit!.image?.pngData())!))
           
-            //Update json file at FileManager
+            //Update json to Firebase Storage
             let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
-            if PlaceManager.shared.writeToJson(fileName: defaultFileURL!, places: myPlacesArray){
+            let jsonData = PlaceManager.shared.jsonFrom(places: myPlacesArray)
+            let jsonRef = reference.child("users/\(logedUser.userID)/user.json)")
+            let uploadTask = PlaceServices.shared.uploadData(reference: jsonRef, dataToUpload: jsonData!, metadataContentType: "json")
+            print (uploadTask.debugDescription)
+            /*if PlaceManager.shared.writeToJson(fileName: defaultFileURL!, places: myPlacesArray){
             }else{
                 print("Error saving user's data when removing a place")
-            }
-            
+            }*/
             //Go back to previous view
-            let vc = self.storyboard?.instantiateInitialViewController()
-            self.present(vc!, animated: false, completion: nil)
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailController")
+            self.present(vc, animated: false, completion: nil)
+            }
         }
     }
     
     //Save changes on edited place
     @IBAction func saveEdit(_ sender: Any) {
-        
+        if logedUser.userID == ""{
+            let alertController = UIAlertController(title:"Only registered users can save places", message: "", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            alertController.addAction(defaultAction)
+            self.present(alertController, animated: true)
+        }else{
         //Save image at FileManager and update its name
-        if stringImage == "ImageChanged" {
-            stringImage =  PlaceManager.shared.saveImage(image: (imgEdit!.image?.pngData())!)
+        //Set a name for the image (0.png, 1.png, 2.png..)
+        let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
+        let numPl:Int = myPlacesArray.count
+        if stringImage == "defaultImage.png"{
+            stringImage = ("\(numPl).png")
+        }else{
+            //I want the name to remain the same
         }
+        //Upload image (new or changed) into Firebase Storage
+        let imgRef = reference.child("users/\(logedUser.userID)/(\(stringImage)")
+        let imgData = imgEdit.image!.pngData()
+        let uploadTaskImg = PlaceServices.shared.uploadData(reference: imgRef, dataToUpload: imgData!, metadataContentType: "image")
+        print (uploadTaskImg.debugDescription)
+        
         let place: Place = retrievePlace(image: (imgEdit!.image?.pngData())!)
         place.stringImage = stringImage //Would only be necessary if changed
         
@@ -232,27 +251,25 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
            
         //Update json file at FileManager
-        let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
+        /*let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
         if PlaceManager.shared.writeToJson(fileName: defaultFileURL!, places: myPlacesArray){
         }else{
             print("Error saving user's data when saving the place")
-        }
+        }*/
         
-        //Save json at Firebase
-      
-        
-       
-        
+        //Save json at Firebase Storage
+        let jsonData = PlaceManager.shared.jsonFrom(places: myPlacesArray)
+        let jsonRef = reference.child("users/\(logedUser.userID)/user.json)")
+        let uploadTaskJson = PlaceServices.shared.uploadData(reference: jsonRef, dataToUpload: jsonData!, metadataContentType: "json")
+        print (uploadTaskJson.debugDescription)
+  
         //Go back to previous view
         performSegue(withIdentifier: "UnwindGoDetail", sender: place)
-        
-        
-        
+        }
     }
     
     //Go back to previous screen
     @IBAction func cancelEdit(_ sender: Any) {
-        //dismiss(animated: true, completion: nil)
         //Go back to previous view
         performSegue(withIdentifier: "UnwindGoDetail", sender: place)
     }

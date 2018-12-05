@@ -73,9 +73,9 @@ class DetailController: UIViewController {
     
     @IBAction func Back(_ sender: Any) {
         //Nothing changed, just go back.
-       // let vc = self.storyboard?.instantiateInitialViewController()
-       // self.present(vc!, animated: false, completion: nil)
-        dismiss(animated: true, completion: nil)    }
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TableViewController")
+        self.present(vc, animated: false, completion: nil)
+    }
 
     @IBAction func editPlace(_ sender: Any) {
         //Allow to jump to EditController if displaying a place

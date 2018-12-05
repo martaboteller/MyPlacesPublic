@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import DropDown
 
 
 // Do you see those MARK lines there in the code? They do nothing (of course, they are comments
@@ -25,22 +26,52 @@ import Firebase
 //     2) automatically adopts both UITableViewDelegate and UITableViewDataSource protocols.
 class TableViewController: UITableViewController {
     
+    @IBOutlet weak var menuIcon: UIBarButtonItem!
     
     //Global variables
-    var user: User?
-    var manager = PlaceManager.shared
+    var dropDown = DropDown()
+    let logedUser = PlaceManager.shared.returnUserInfo()
+    let manager = PlaceManager.shared
+    var places: [Place]?
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+       
+         super.viewDidLoad()
         
         // Never forget to set delegate and dataSource for our UITableView!
         let view = self.view as! UITableView
         view.delegate = self
         view.dataSource = self
         
-        let user: User = PlaceManager.shared.returnUserInfo()
-        print(user.name)
-        print(user.surname)
+        if let places = places {
+            //Append places received from previous view
+            for pl in places {
+                self.manager.append(pl)
+                print(pl.image?.base64EncodedString())
+            }
+        }
+     
+        //Get the user name to display in dropdown menu
+        if Auth.auth().currentUser == nil {
+          logedUser.name = "Guest"
+        }
+       
+        // Fill and format dropdown menu with a custom cell (MyCell)
+        dropDown.anchorView = menuIcon
+        dropDown.dataSource = [logedUser.name, "Log Out"]
+        dropDown.width = 130
+        dropDown.textFont = UIFont(name: "AppleSDGothicNeo-Regular", size: 20)!
+        dropDown.direction = .bottom
+        dropDown.bottomOffset = CGPoint(x: 0, y:45)
+        dropDown.cellNib = UINib (nibName: "MyCell", bundle: nil)
+        dropDown.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
+                guard let cell = cell as? MyCell else { return }
+            if index == 0{
+                cell.logoImageView.image = UIImage(named: "user")
+            } else {
+                cell.logoImageView.image = UIImage(named: "out")
+            }
+        }
         
         //Show logo instead of application name
         self.navigationItem.titleView = UIImageView(image: UIImage(named: "appLogo.png"))
@@ -89,26 +120,31 @@ class TableViewController: UITableViewController {
                 print ("Unable to read from : " + path.path)
             }
         	End part to remove*/
+    }
+  
+    
+    //Dropdown activated when menu icon is tapped
+    @IBAction func displayDropDown(_ sender: Any) {
+        dropDown.show()
+        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            print ("First element is: \(self.logedUser.name)")
+            if index == 1 {
+                do {
+                    try Auth.auth().signOut()
+                    let places = PlaceManager.shared.returnSaved()
+                    for p in places {
+                        PlaceManager.shared.remove(p) //remove places befor login out
+                    }
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AuthViewController")
+                self.present(vc, animated: false, completion: nil)
+            }
+        }
         
     }
     
-    
-    /*@IBAction func logOutAction(_ sender: Any) {
-        if Auth.auth().currentUser != nil {
-            do {
-                try Auth.auth().signOut()
-                let places = self.manager.returnSaved()
-                for p in places {
-                   self.manager.remove(p)
-                }
-                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AuthViewController")
-                present(vc, animated: true, completion: nil)
-                
-            } catch let error as NSError {
-                print(error.localizedDescription)
-            }
-        }
-    }*/
     
     //Restrict rotation
     override open var shouldAutorotate: Bool {
@@ -143,8 +179,8 @@ class TableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlaceCell", for: indexPath) as! PlaceCell
         cell.nameLabel.text = place.name
         cell.descriptionLabel.text = place.descriptionPlace
-        let imageIcon: UIImage = UIImage(data:   ((PlaceManager.shared.itemAt(position: indexPath.row))?.image)!)!
-        cell.imageSample.image = imageIcon
+       // let imageIcon: UIImage = UIImage(data:   ((PlaceManager.shared.itemAt(position: indexPath.item))?.image)!)!
+        //cell.imageSample.image = imageIcon
         
         return cell
         
@@ -177,10 +213,6 @@ class TableViewController: UITableViewController {
     // screen? OK. When we ask the app to take any road (performSegue), iOS will call this method
     // in case any preparation is required. In this case, we're only checking which road to take
     // and, if it is the "ShowPlaceDetail" one, we send the place object to the destination screen.
-    @IBAction func displayDropDown(_ sender: Any) {
-         performSegue(withIdentifier: "popoverSegue", sender: self)
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowPlaceDetail" {
             if let dc = segue.destination as? DetailController {
@@ -191,3 +223,5 @@ class TableViewController: UITableViewController {
     
    
 }
+
+

@@ -11,6 +11,7 @@ pod 'Firebase/Core'
 pod 'Firebase/Storage'
 pod 'Firebase/Database'
 pod 'Firebase/Auth'
+pod 'DropDown', '2.3.4'
 pod 'Fabric', '~> 1.7.11'
 pod 'Crashlytics', '~> 3.10.7'
 

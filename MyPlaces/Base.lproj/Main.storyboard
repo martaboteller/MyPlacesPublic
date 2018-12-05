@@ -218,7 +218,6 @@
                         <segue destination="49e-Tb-3d3" kind="presentation" identifier="AccessApp" modalTransitionStyle="crossDissolve" id="aNr-zC-dIV"/>
                         <segue destination="I0W-9N-Bq8" kind="presentation" identifier="SignUp" modalTransitionStyle="crossDissolve" id="Ia5-Jn-0Fw"/>
                         <segue destination="L1M-ic-3ua" kind="presentation" identifier="ForgottenPass" modalTransitionStyle="crossDissolve" id="AY6-fK-Xo1"/>
-                        <segue destination="49e-Tb-3d3" kind="presentation" identifier="AccessAsGuest" modalTransitionStyle="crossDissolve" id="ckZ-wK-3gt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eg5-dj-E8V" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -873,20 +872,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Places" id="ZV8-8Y-gWR">
-                        <leftBarButtonItems>
-                            <barButtonItem title="Log Out" id="xS8-hm-wBG">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="logOutAction:" destination="7xI-TI-QAn" id="9NU-xQ-qTK"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Pop" id="Tmi-Ko-O3P">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="displayDropDown:" destination="7xI-TI-QAn" id="D3A-Kq-MuD"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
+                        <barButtonItem key="leftBarButtonItem" title="menu" image="menu" id="Tmi-Ko-O3P">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="displayDropDown:" destination="7xI-TI-QAn" id="D3A-Kq-MuD"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Auv-F4-IV2">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -895,6 +886,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="menuIcon" destination="Tmi-Ko-O3P" id="WVl-7v-p4U"/>
                         <segue destination="bzB-Uj-XqG" kind="presentation" identifier="ShowPlaceDetail" modalTransitionStyle="crossDissolve" id="4af-m4-4qf"/>
                     </connections>
                 </tableViewController>
@@ -1356,10 +1348,10 @@
                                         <rect key="frame" x="0.0" y="409.66666666666669" width="414" height="189.00000000000006"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BdY-YF-LKu">
-                                                <rect key="frame" x="0.0" y="0.0" width="331.33333333333331" height="189"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="322" height="189"/>
                                                 <subviews>
                                                     <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emptyImage" translatesAutoresizingMaskIntoConstraints="NO" id="PmI-cq-3B4">
-                                                        <rect key="frame" x="38.333333333333329" y="15.666666666666629" width="254.66666666666669" height="157.33333333333334"/>
+                                                        <rect key="frame" x="37" y="15.666666666666629" width="248" height="157.33333333333334"/>
                                                     </imageView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1371,8 +1363,8 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dms-d3-kOz">
-                                                <rect key="frame" x="331.33333333333331" y="0.0" width="82.666666666666686" height="189"/>
-                                                <state key="normal" image="find">
+                                                <rect key="frame" x="322" y="0.0" width="92" height="189"/>
+                                                <state key="normal" image="pickimg">
                                                     <attributedString key="attributedTitle"/>
                                                 </state>
                                                 <connections>
@@ -1381,7 +1373,7 @@
                                             </button>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="dms-d3-kOz" firstAttribute="width" secondItem="BdY-YF-LKu" secondAttribute="width" multiplier="1:4" id="SJR-7h-tKN"/>
+                                            <constraint firstItem="dms-d3-kOz" firstAttribute="width" secondItem="BdY-YF-LKu" secondAttribute="width" multiplier="1:3.5" id="SJR-7h-tKN"/>
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3fH-hw-tlU">
@@ -1458,12 +1450,12 @@
     <resources>
         <image name="edit" width="24" height="24"/>
         <image name="emptyImage" width="300" height="171"/>
-        <image name="find" width="24" height="24"/>
         <image name="first" width="24" height="24"/>
         <image name="g" width="24" height="24"/>
         <image name="googlemap" width="24" height="24"/>
         <image name="menu" width="24" height="24"/>
         <image name="myPlacesWhite" width="128" height="128"/>
+        <image name="pickimg" width="24" height="24"/>
         <image name="previous" width="24" height="24"/>
         <image name="second" width="24" height="24"/>
         <image name="t" width="24" height="24"/>
@@ -1471,8 +1463,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="EWd-IP-KvU"/>
-        <segue reference="4af-m4-4qf"/>
+        <segue reference="Yen-OE-yIT"/>
         <segue reference="Rdm-3J-Kz4"/>
-        <segue reference="ckZ-wK-3gt"/>
     </inferredMetricsTieBreakers>
 </document>
