@@ -194,15 +194,15 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             //Update json to Firebase Storage
             let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
             let jsonData = PlaceManager.shared.jsonFrom(places: myPlacesArray)
-            let jsonRef = reference.child("users/\(logedUser.userID)/user.json)")
+            let jsonRef = reference.child("users/\(logedUser.userID)/user.json")
             let uploadTask = PlaceServices.shared.uploadData(reference: jsonRef, dataToUpload: jsonData!, metadataContentType: "json")
             print (uploadTask.debugDescription)
-            /*if PlaceManager.shared.writeToJson(fileName: defaultFileURL!, places: myPlacesArray){
-            }else{
-                print("Error saving user's data when removing a place")
-            }*/
+            //Delete image from Firebase Storage
+            let imgRef = reference.child("users/\(logedUser.userID)/\(stringImage)")
+             PlaceServices.shared.deleteData(reference: imgRef, fileName: stringImage)
+           
             //Go back to previous view
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailController")
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TableViewController")
             self.present(vc, animated: false, completion: nil)
             }
         }
@@ -210,6 +210,7 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     //Save changes on edited place
     @IBAction func saveEdit(_ sender: Any) {
+        var myPlacesArray: [Place] = [Place]()
         if logedUser.userID == ""{
             let alertController = UIAlertController(title:"Only registered users can save places", message: "", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -218,16 +219,16 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }else{
         //Save image at FileManager and update its name
         //Set a name for the image (0.png, 1.png, 2.png..)
-        let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
+        myPlacesArray = PlaceManager.shared.returnSaved()
         let numPl:Int = myPlacesArray.count
         if stringImage == "defaultImage.png"{
             stringImage = ("\(numPl).png")
-        }else{
-            //I want the name to remain the same
         }
         //Upload image (new or changed) into Firebase Storage
-        let imgRef = reference.child("users/\(logedUser.userID)/(\(stringImage)")
-        let imgData = imgEdit.image!.pngData()
+        let imgRef = reference.child("users/\(logedUser.userID)/\(stringImage)")
+        //Reduce Image size
+            let reducedImage = imgEdit.image!.resizedTo1MB()
+        let imgData = reducedImage?.pngData()
         let uploadTaskImg = PlaceServices.shared.uploadData(reference: imgRef, dataToUpload: imgData!, metadataContentType: "image")
         print (uploadTaskImg.debugDescription)
         
@@ -235,10 +236,11 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         place.stringImage = stringImage //Would only be necessary if changed
         
         //Verify if it is a new place
-        let placeArray:[Place] = PlaceManager.shared.returnSaved()
+        //Retreive places after update
+        //placeArray = PlaceManager.shared.returnSaved()
         var str: String = "It's a new place"
-        for i in 0...placeArray.count-1 {
-            if place.id == placeArray [i].id {
+        for i in 0...myPlacesArray.count-1 {
+            if place.id == myPlacesArray[i].id {
                 str = ""
             }
         }
@@ -251,15 +253,11 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
            
         //Update json file at FileManager
-        /*let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
-        if PlaceManager.shared.writeToJson(fileName: defaultFileURL!, places: myPlacesArray){
-        }else{
-            print("Error saving user's data when saving the place")
-        }*/
+        myPlacesArray = PlaceManager.shared.returnSaved()
         
         //Save json at Firebase Storage
         let jsonData = PlaceManager.shared.jsonFrom(places: myPlacesArray)
-        let jsonRef = reference.child("users/\(logedUser.userID)/user.json)")
+        let jsonRef = reference.child("users/\(logedUser.userID)/user.json")
         let uploadTaskJson = PlaceServices.shared.uploadData(reference: jsonRef, dataToUpload: jsonData!, metadataContentType: "json")
         print (uploadTaskJson.debugDescription)
   
@@ -361,7 +359,7 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
         return place!
     }
-
+    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "UnwindGoDetail" {
@@ -387,6 +385,35 @@ extension EditController {
             pickerImg.dismiss(animated: true, completion: nil)
             imgEdit.image = image
         }
+    }
+}
+
+extension UIImage {
+    
+    func resized(withPercentage percentage: CGFloat) -> UIImage? {
+        let canvasSize = CGSize(width: size.width * percentage, height: size.height * percentage)
+        UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        draw(in: CGRect(origin: .zero, size: canvasSize))
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+    
+    func resizedTo1MB() -> UIImage? {
+        guard let imageData = self.pngData() else { return nil }
+        
+        var resizingImage = self
+        var imageSizeKB = Double(imageData.count) / 1000.0 // ! Or devide for 1024 if you need KB but not kB
+        
+        while imageSizeKB > 1000 { // ! Or use 1024 if you need KB but not kB
+            guard let resizedImage = resizingImage.resized(withPercentage: 0.9),
+                let imageData = resizedImage.pngData()
+                else { return nil }
+            
+            resizingImage = resizedImage
+            imageSizeKB = Double(imageData.count) / 1000.0 // ! Or devide for 1024 if you need KB but not kB
+        }
+        
+        return resizingImage
     }
 }
 

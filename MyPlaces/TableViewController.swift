@@ -47,13 +47,8 @@ class TableViewController: UITableViewController {
             //Append places received from previous view
             for pl in places {
                 self.manager.append(pl)
-                print(pl.image?.base64EncodedString())
             }
-        }
-     
-        //Get the user name to display in dropdown menu
-        if Auth.auth().currentUser == nil {
-          logedUser.name = "Guest"
+            print(places.count)
         }
        
         // Fill and format dropdown menu with a custom cell (MyCell)
@@ -77,49 +72,7 @@ class TableViewController: UITableViewController {
         self.navigationItem.titleView = UIImageView(image: UIImage(named: "appLogo.png"))
         self.navigationItem.titleView?.tintColor = UIColor.white
         
-        //I want to remove this part from here
-            //Initialize Manager
-            /*let manager = PlaceManager.shared
-            
-            //Define paths and files where data will be stored
-            let fileManager = FileManager.default
-            let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let templateFile = docsPath.appendingPathComponent("savedPlaces.json")
-            let userdataFile = docsPath.appendingPathComponent("userPlaces.json")
-            var path: URL
-            
-            //Create userdataFile/templateFile if it does not exist
-            //Save default places if templateFile is empty
-            if(!fileManager.fileExists(atPath: userdataFile.path)){
-                fileManager.createFile(atPath: userdataFile.path, contents: nil, attributes: nil)
-            }
-            if(!fileManager.fileExists(atPath: templateFile.path)){
-                fileManager.createFile(atPath: templateFile.path, contents: nil, attributes: nil)
-            }
-            if !PlaceManager.shared.userHasData(path: templateFile){
-                if PlaceManager.shared.writeToJson(fileName: templateFile, places: PlaceManager.shared.somePlaces()){
-                    print("Data correctly saved into tempalteFile")
-                }
-            }
-            
-            //If user has saved data use userdataFile otherwise use templateFile
-            if PlaceManager.shared.userHasData(path: userdataFile){
-                path = userdataFile
-            } else {
-                path = templateFile
-            }
-            
-            //Read data from stored file and append it into manager
-            do{
-                let jsonData = try Data.init(contentsOf: path)
-                let places = PlaceManager.shared.placesFrom(jsonData: jsonData)
-                for place in places {
-                    manager.append(place)
-                }
-            } catch {
-                print ("Unable to read from : " + path.path)
-            }
-        	End part to remove*/
+       
     }
   
     
@@ -179,8 +132,8 @@ class TableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlaceCell", for: indexPath) as! PlaceCell
         cell.nameLabel.text = place.name
         cell.descriptionLabel.text = place.descriptionPlace
-       // let imageIcon: UIImage = UIImage(data:   ((PlaceManager.shared.itemAt(position: indexPath.item))?.image)!)!
-        //cell.imageSample.image = imageIcon
+        let imageIcon: UIImage = UIImage(data:   ((PlaceManager.shared.itemAt(position: indexPath.row))?.image)!)!
+        cell.imageSample.image = imageIcon
         
         return cell
         

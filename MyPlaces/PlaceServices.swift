@@ -60,19 +60,26 @@ class PlaceServices {
             } else {
                 if let _data  = data {
                     let placesArray = PlaceManager.shared.placesFrom(jsonData: _data)
+                  
                     //Download demo images
                     let numImages: Int = placesArray.count
+                    var counter: Int = 0
                     for i in 0...numImages-1{
                         let imageRef = Storage.storage().reference(withPath: "demo/\(i).png")
-                        imageRef.getData(maxSize: (1 * 1024 * 1024)) { (data, error) in
-                            if let _error = error{
-                                print(_error)
-                                failure(_error)
+                        print(imageRef)
+                        imageRef.getData(maxSize: (1 * 1024 * 1024)) { (data1, error1) in
+                            if let _error1 = error1{
+                                print(_error1)
+                                failure(_error1)
                             } else {
-                                if let _data  = data {
-                                    let myImage: Data = (UIImage(data: _data)?.pngData())!
+                                if let _data1  = data1 {
+                                    print("There is data")
+                                    let myImage: Data = (UIImage(data: _data1)?.pngData())!
                                     placesArray[i].image = myImage
-                                     success(placesArray)
+                                    counter += 1
+                                    if counter == numImages {
+                                        success(placesArray)
+                                    }
                                 }
                             }
                         }
@@ -96,6 +103,7 @@ class PlaceServices {
                     let placesArray = PlaceManager.shared.placesFrom(jsonData: _data)
                     //Download demo images
                     let numImages: Int = placesArray.count
+                    var counter: Int = 0
                     for index in 0...numImages-1 {
                         let imageRef2 = Storage.storage().reference(withPath: "users/\(userID)/\(index).png")
                         print(imageRef2)
@@ -109,9 +117,11 @@ class PlaceServices {
                                 if let _imgData  = imgData {
                                     print("The images are data")
                                     let myImage2: Data = (UIImage(data: _imgData)?.pngData())!
-                                    print(myImage2.debugDescription)
                                     placesArray[index].image = myImage2
-                                    success(placesArray)
+                                    counter += 1
+                                    if counter == numImages {
+                                        success(placesArray)
+                                    }
                                 }
                             } 
                         }
@@ -171,11 +181,17 @@ class PlaceServices {
                let surname = userDict["surname"] as! String
                let user = User(name: name, surname: surname, userID: userID)
                self.manager.defineCurrentUser(user)
+               //Create a user.json file inside a folder named like userID
+               //In Firebase Storage
+               let firstRef = Storage.storage().reference(withPath: "users/\(userID)/user.json")
+               let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+               let firstJson = NSData(contentsOf: docsPath.appendingPathComponent("user.json"))
+               let uploadFirstFileTask = self.uploadData(reference: firstRef, dataToUpload: firstJson! as Data, metadataContentType: "json")
+               print(uploadFirstFileTask)
                success(user)
             })
            }
         }
     }
-    
     
 }

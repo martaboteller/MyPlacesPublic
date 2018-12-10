@@ -12,8 +12,8 @@ import Firebase
 
 class User {
     
-    var name = ""
-    var surname = ""
+    var name = "Guest"
+    var surname = "Guest"
     var userID =  ""
     
     init(name: String, surname: String, userID: String) {

@@ -55,19 +55,6 @@ class AuthViewController: UIViewController {
         //Listen for events related to Firebase Authentication
         NotificationCenter.default.addObserver(self, selector: #selector(onNotification(notification:)), name: AuthViewController.msgFromLogIn, object: nil)
         
-        /*var myRef = Storage.storage().reference()
-        myRef = myRef.child("users/44dJLgDAK4bnoyHNfo9Qcl0BQau2/3.png")
-        let myData = UIImage(named: "first")?.pngData()
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let fileName = "savedPlaces.json"
-        let fileURL = documentsDirectory.appendingPathComponent(fileName)
-        do{
-            let jsonData = try Data.init(contentsOf: fileURL)
-             PlaceServices.shared.uploadData(reference: myRef, dataToUpload: jsonData, metadataContentType: "json")
-        } catch{
-                print(error)
-        }
-        PlaceServices.shared.deleteData(reference: myRef, fileName: "3.png")*/
         
     }
     
@@ -105,12 +92,12 @@ class AuthViewController: UIViewController {
     }
     //Go to ForgottenPassViewController view and make the user type an email
     @IBAction func retrivePassword(_ sender: Any) {
-        performSegue(withIdentifier: "ForgottenPass", sender: "UserNamePassword")
+        performSegue(withIdentifier: "ForgottenPass", sender: "")
     }
     
     //Go to SignUpViewController view and allow user to create an account
     @IBAction func signUpAction(_ sender: Any) {
-        performSegue(withIdentifier: "SignUp", sender: "UserNamePassword")
+        performSegue(withIdentifier: "SignUp", sender: "")
     }
     
     //Log in (authenticate) and access the app with the user's profile/data

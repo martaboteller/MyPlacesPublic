@@ -73,7 +73,6 @@ class Place: NSObject, Codable {
         self.location = location
     }
     
-    
     //This one considers an Id
     init(id: String, name: String, descriptionPlace: String, image_in: Data?, stringImage: String, type: PlaceType, location: CLLocationCoordinate2D) {
         self.id = id
@@ -103,11 +102,14 @@ class Place: NSObject, Codable {
         
         //We only need to store stringImage at Json
         //Will retrieve imageData from proper path
-        let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        /*let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let image = docsPath.appendingPathComponent(stringImage)
-        let data = UIImage(contentsOfFile: image.path)?.pngData()
+        let data = UIImage(contentsOfFile: image.path)?.pngData()*/
+        let image = UIImage(named:"emptyImage")
+        let data = image?.pngData()
         
         self.init(name: name, descriptionPlace: descriptionPlace, image_in: data, stringImage: stringImage,type: type, location: coordinate2D)
+       
     }
     
     //Explains how to encode Place

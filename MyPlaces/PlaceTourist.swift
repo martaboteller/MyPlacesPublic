@@ -40,13 +40,16 @@ class PlaceTourist : Place {
         let coordinate2D = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let stringImage = try container.decode(String.self, forKey: .stringImage)
         
-        //We only need to store stringImage at Json
+        /*//We only need to store stringImage at Json
         //Will retrieve imageData from proper path
         let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let image = docsPath.appendingPathComponent(stringImage)
-        let data = UIImage(contentsOfFile: image.path)?.pngData()
+        let data = UIImage(contentsOfFile: image.path)?.pngData()*/
+        let image = UIImage(named:"emptyImage")
+        let data = image?.pngData()
         
         self.init(name: name, descriptionPlace: descriptionPlace, image_in: data, stringImage: stringImage,discount_tourist: discount_tourist, location: coordinate2D)
+   
     }
     
     //Explains how to encode Place
