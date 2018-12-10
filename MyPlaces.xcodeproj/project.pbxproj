@@ -10,7 +10,6 @@
 		8F637C4318226C16A48AD3A0 /* Pods_MyPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B08757BA198F76A62336774 /* Pods_MyPlaces.framework */; };
 		D321037421B6FFC40036C776 /* MyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D321037321B6FFC40036C776 /* MyCell.xib */; };
 		D321037621B700BA0036C776 /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D321037521B700BA0036C776 /* MyCell.swift */; };
-		D321037821B721570036C776 /* user.json in Resources */ = {isa = PBXBuildFile; fileRef = D321037721B721570036C776 /* user.json */; };
 		D3304B9C219C96DA00B7F6BB /* PlaceManager+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3304B9B219C96DA00B7F6BB /* PlaceManager+JSON.swift */; };
 		D3428A1221562ECB00E94235 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3428A1121562ECB00E94235 /* AppDelegate.swift */; };
 		D3428A1421562ECB00E94235 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3428A1321562ECB00E94235 /* TableViewController.swift */; };
@@ -40,7 +39,6 @@
 		6B08757BA198F76A62336774 /* Pods_MyPlaces.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyPlaces.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D321037321B6FFC40036C776 /* MyCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyCell.xib; sourceTree = "<group>"; };
 		D321037521B700BA0036C776 /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
-		D321037721B721570036C776 /* user.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = user.json; sourceTree = "<group>"; };
 		D3304B9B219C96DA00B7F6BB /* PlaceManager+JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceManager+JSON.swift"; sourceTree = "<group>"; };
 		D3428A0E21562ECB00E94235 /* MyPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3428A1121562ECB00E94235 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 				D3F2B96021B42CA000E82940 /* User.swift */,
 				D3563DE92173A751007EB430 /* PlaceManager.swift */,
 				D3304B9B219C96DA00B7F6BB /* PlaceManager+JSON.swift */,
-				D321037721B721570036C776 /* user.json */,
 				D37649C021A95F8300DC7557 /* PlaceServices.swift */,
 			);
 			path = MyPlaces;
@@ -217,7 +214,6 @@
 				D3428A1B21562ECC00E94235 /* Assets.xcassets in Resources */,
 				D3F2197921A9FDDA0045D555 /* GoogleService-Info.plist in Resources */,
 				D38C321A219F5A7B000B1161 /* Podfile in Resources */,
-				D321037821B721570036C776 /* user.json in Resources */,
 				D34C8FB6215BF45E00A3FF36 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

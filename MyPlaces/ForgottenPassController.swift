@@ -84,7 +84,6 @@ class ForgottenPassController: UIViewController, UITextViewDelegate {
         }
     }
     
-    
     @IBAction func backToLogInF(_ sender: Any) {
         let vc = self.storyboard?.instantiateInitialViewController()
         self.present(vc!, animated: false, completion: nil)

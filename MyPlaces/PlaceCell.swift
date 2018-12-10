@@ -18,7 +18,6 @@ class PlaceCell: UITableViewCell{
             imageSampleView.layer.borderColor = UIColor.black.cgColor
         }
     }
-    
     @IBOutlet weak var nameLabel: UILabel!{
         didSet{
         nameLabel.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 20)
@@ -28,28 +27,16 @@ class PlaceCell: UITableViewCell{
         didSet{
             descriptionLabel.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
         }
-        
     }
     @IBOutlet weak var imageSample: UIImageView!{
         didSet{
             imageSample.layer.cornerRadius = 25
             imageSample.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMaxYCorner]
-          //  imageSample.alpha = 0.40
-            
         }
     }
     
-    
-    
-        
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-       
     }
-    
-  
-    
-   
     
 }

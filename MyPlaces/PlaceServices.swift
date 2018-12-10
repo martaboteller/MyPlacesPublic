@@ -60,12 +60,11 @@ class PlaceServices {
             } else {
                 if let _data  = data {
                     let placesArray = PlaceManager.shared.placesFrom(jsonData: _data)
-                  
-                    //Download demo images
+                    //Download demo images (looking them by their name)
                     let numImages: Int = placesArray.count
                     var counter: Int = 0
-                    for i in 0...numImages-1{
-                        let imageRef = Storage.storage().reference(withPath: "demo/\(i).png")
+                    for place in placesArray{
+                        let imageRef = Storage.storage().reference(withPath: "demo/\(place.stringImage)")
                         print(imageRef)
                         imageRef.getData(maxSize: (1 * 1024 * 1024)) { (data1, error1) in
                             if let _error1 = error1{
@@ -73,9 +72,8 @@ class PlaceServices {
                                 failure(_error1)
                             } else {
                                 if let _data1  = data1 {
-                                    print("There is data")
                                     let myImage: Data = (UIImage(data: _data1)?.pngData())!
-                                    placesArray[i].image = myImage
+                                    place.image = myImage
                                     counter += 1
                                     if counter == numImages {
                                         success(placesArray)
@@ -101,32 +99,32 @@ class PlaceServices {
             } else {
                 if let _data  = data {
                     let placesArray = PlaceManager.shared.placesFrom(jsonData: _data)
-                    //Download demo images
+                    //Download demo images (looking them by their name)
                     let numImages: Int = placesArray.count
                     var counter: Int = 0
-                    for index in 0...numImages-1 {
-                        let imageRef2 = Storage.storage().reference(withPath: "users/\(userID)/\(index).png")
-                        print(imageRef2)
-                        imageRef2.getData(maxSize: (1 * 1024 * 1024)) { (imgData, errorImg) in
-                            if let _errorImg = errorImg{
-                                print(_errorImg)
-                                print("I am having an error")
-                                failure(_errorImg)
-                            } else {
-                                print("I have found images")
-                                if let _imgData  = imgData {
-                                    print("The images are data")
-                                    let myImage2: Data = (UIImage(data: _imgData)?.pngData())!
-                                    placesArray[index].image = myImage2
-                                    counter += 1
-                                    if counter == numImages {
-                                        success(placesArray)
+                    if numImages != 0 {
+                        for place in placesArray {
+                            let imageRef2 = Storage.storage().reference(withPath: "users/\(userID)/\(place.stringImage)")
+                            print(imageRef2)
+                            imageRef2.getData(maxSize: (1 * 1024 * 1024)) { (imgData, errorImg) in
+                                if let _errorImg = errorImg{
+                                    print(_errorImg)
+                                    failure(_errorImg)
+                                } else {
+                                    if let _imgData  = imgData {
+                                        let myImage2: Data = (UIImage(data: _imgData)?.pngData())!
+                                        place.image = myImage2
+                                        counter += 1
+                                        if counter == numImages {
+                                            success(placesArray)
+                                        }
                                     }
                                 }
-                            } 
+                            }
                         }
+                    }else{
+                      success(placesArray)
                     }
-                  
                 }
             }
         }
@@ -144,6 +142,10 @@ class PlaceServices {
                     let userID = Auth.auth().currentUser!.uid
                     let ref: DatabaseReference! = Database.database().reference()
                     ref.child("users").child(userID).setValue(["name": name, "surname": surname])
+                    //Create Firebase Storage Folder
+                    self.uploadFirst(userID: userID, completion: { (url) in
+                        print("Folder created for user: \(userID)")
+                    })
                 } else {
                     userInfo = (error?.localizedDescription)!
                 }
@@ -181,17 +183,34 @@ class PlaceServices {
                let surname = userDict["surname"] as! String
                let user = User(name: name, surname: surname, userID: userID)
                self.manager.defineCurrentUser(user)
-               //Create a user.json file inside a folder named like userID
-               //In Firebase Storage
-               let firstRef = Storage.storage().reference(withPath: "users/\(userID)/user.json")
-               let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-               let firstJson = NSData(contentsOf: docsPath.appendingPathComponent("user.json"))
-               let uploadFirstFileTask = self.uploadData(reference: firstRef, dataToUpload: firstJson! as Data, metadataContentType: "json")
-               print(uploadFirstFileTask)
                success(user)
-            })
-           }
+                    }
+            )}
         }
     }
+    
+    //Function that creates a folder named userID at
+    //Firebase Storage with an empty user.json file
+    func uploadFirst(userID: String,completion: @escaping (_ url: String?) -> Void){
+        //Create user.json file
+        let fileManager = FileManager.default
+        let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("user.json")
+        fileManager.createFile(atPath: filePath.path, contents: nil, attributes: nil)
+        //Upload it into Firebase Storage
+        let firstRef = Storage.storage().reference(withPath: "users/\(userID)/user.json")
+        let firstJson = NSData(contentsOf:filePath)
+        let myMetadata = StorageMetadata()
+        myMetadata.contentType = "application/json"
+        firstRef.putData(firstJson! as Data, metadata: myMetadata) {(metadata, error) in
+            if error == nil, metadata != nil {
+                firstRef.downloadURL { url, error in
+                    completion(url?.path)
+                }
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
     
 }

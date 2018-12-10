@@ -915,7 +915,7 @@
                                     <barButtonItem title="previous" image="previous" id="bPu-YD-Qgw">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
-                                            <action selector="Back:" destination="bzB-Uj-XqG" id="BWT-jJ-hfd"/>
+                                            <action selector="goBack:" destination="bzB-Uj-XqG" id="9CP-wf-CpK"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="vTF-2G-12Z"/>
@@ -1074,6 +1074,7 @@
                         <outlet property="namePlace" destination="5zU-VB-pEF" id="ixY-c5-3en"/>
                         <outlet property="typePlace" destination="THV-5z-p1Z" id="KJT-Bj-Bqg"/>
                         <segue destination="6R5-rq-4gN" kind="presentation" identifier="EditPlaceDetail" modalTransitionStyle="crossDissolve" id="6iF-XI-QXI"/>
+                        <segue destination="49e-Tb-3d3" kind="presentation" identifier="ShowTableView" modalTransitionStyle="crossDissolve" id="T8Q-Ge-FTW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Sk-rF-NOp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1101,13 +1102,13 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Aj-ka-aI9">
                                 <rect key="frame" x="0.0" y="694" width="414" height="42"/>
                                 <items>
-                                    <barButtonItem systemItem="cancel" id="Z7H-5T-EqL">
+                                    <barButtonItem title="Cancel" id="Z7H-5T-EqL">
                                         <connections>
                                             <action selector="cancelEdit:" destination="6R5-rq-4gN" id="gDN-u2-mcS"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="3AU-cl-ipj"/>
-                                    <barButtonItem systemItem="save" id="zII-3w-UDJ">
+                                    <barButtonItem title="Save" id="zII-3w-UDJ">
                                         <connections>
                                             <action selector="saveEdit:" destination="6R5-rq-4gN" id="yiz-dJ-QHY"/>
                                         </connections>
@@ -1422,11 +1423,12 @@
                         <outlet property="textFieldCoord" destination="9lB-gg-M7H" id="dnP-kB-i2I"/>
                         <segue destination="bzB-Uj-XqG" kind="presentation" identifier="UnwindGoDetail" modalTransitionStyle="crossDissolve" id="Yen-OE-yIT"/>
                         <segue destination="RJE-HZ-JzK" kind="presentation" identifier="PickUpCoordinates" modalTransitionStyle="crossDissolve" id="Rdm-3J-Kz4"/>
+                        <segue destination="49e-Tb-3d3" kind="presentation" identifier="ShowTableViewFromEdit" modalTransitionStyle="crossDissolve" id="RiG-3M-amT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PnA-W5-Jnj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3496" y="501"/>
+            <point key="canvasLocation" x="3219" y="519"/>
         </scene>
         <!--List-->
         <scene sceneID="DMy-bs-XmI">
@@ -1462,8 +1464,9 @@
         <image name="wallpaper" width="2560" height="1600"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="EWd-IP-KvU"/>
+        <segue reference="6iF-XI-QXI"/>
         <segue reference="Yen-OE-yIT"/>
         <segue reference="Rdm-3J-Kz4"/>
+        <segue reference="T8Q-Ge-FTW"/>
     </inferredMetricsTieBreakers>
 </document>

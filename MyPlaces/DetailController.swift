@@ -71,12 +71,6 @@ class DetailController: UIViewController {
         
     // MARK: - Actions done by icons on the tab bar
     
-    @IBAction func Back(_ sender: Any) {
-        //Nothing changed, just go back.
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TableViewController")
-        self.present(vc, animated: false, completion: nil)
-    }
-
     @IBAction func editPlace(_ sender: Any) {
         //Allow to jump to EditController if displaying a place
         if !idPlace.isEmpty {
@@ -86,14 +80,23 @@ class DetailController: UIViewController {
         }
     }
     
-    // MARK: - Navigation
+    //Go back to TableViewController
+    @IBAction func goBack(_ sender: Any) {
+        let arrayPlaces = PlaceManager.shared.returnSaved()
+        print("Update places to: \(arrayPlaces.count)")
+        performSegue(withIdentifier: "ShowTableView", sender: nil)
+    }
     
+    // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EditPlaceDetail" {
             if let dc = segue.destination as? EditController {
                 dc.place = sender as? Place
             }
         }
+        if segue.identifier == "ShowTableView"{
+         //No need to pass [Place]
+        }
     }
-
+    
 }

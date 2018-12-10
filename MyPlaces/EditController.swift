@@ -84,11 +84,6 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         self.hideKeyboardWhenTappedAround()
         
-        /*//Save location of working file
-        defaultDocsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        defaultImageURL = defaultDocsPath!.appendingPathComponent("defaultImage.png")
-        defaultFileURL = defaultDocsPath!.appendingPathComponent("userPlaces.json")*/
-       
         //Connect data
         self.placeDescription.delegate = self
         self.picker.delegate = self
@@ -179,19 +174,13 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         } else {
         //Don't need to remove new place
         if idPlace == "" {
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailController")
-            self.present(vc, animated: false, completion: nil)
-        //Update existing place
+            //Only go back to TableViewController, nothing has been changed
+           self.dismiss(animated: true, completion: nil)
         } else {
-            //Delete image from file
-            if PlaceManager.shared.deleteImage(imageName: stringImage){
-            }else{
-                print("Error deleting image from file")
-            }
             //Delete place from manager
             MyPlaces.PlaceManager.shared.remove(retrievePlace(image: (imgEdit!.image?.pngData())!))
           
-            //Update json to Firebase Storage
+            //Update json at Firebase Storage
             let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
             let jsonData = PlaceManager.shared.jsonFrom(places: myPlacesArray)
             let jsonRef = reference.child("users/\(logedUser.userID)/user.json")
@@ -199,11 +188,12 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             print (uploadTask.debugDescription)
             //Delete image from Firebase Storage
             let imgRef = reference.child("users/\(logedUser.userID)/\(stringImage)")
+            
+            //Delete image from Firebase Storage
              PlaceServices.shared.deleteData(reference: imgRef, fileName: stringImage)
            
-            //Go back to previous view
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TableViewController")
-            self.present(vc, animated: false, completion: nil)
+            //Go back to TableViewController view
+            performSegue(withIdentifier: "ShowTableViewFromEdit", sender: nil)
             }
         }
     }
@@ -239,28 +229,26 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         //Retreive places after update
         //placeArray = PlaceManager.shared.returnSaved()
         var str: String = "It's a new place"
-        for i in 0...myPlacesArray.count-1 {
-            if place.id == myPlacesArray[i].id {
-                str = ""
+        if myPlacesArray.count > 0 {
+            for i in 0...myPlacesArray.count-1 {
+                if place.id == myPlacesArray[i].id {
+                    str = ""
+                }
             }
         }
-        
         //Append or Update place to save
         if str == "It's a new place" {
             PlaceManager.shared.append(place)
         } else {
             PlaceManager.shared.update(place)
         }
-           
         //Update json file at FileManager
         myPlacesArray = PlaceManager.shared.returnSaved()
-        
         //Save json at Firebase Storage
         let jsonData = PlaceManager.shared.jsonFrom(places: myPlacesArray)
         let jsonRef = reference.child("users/\(logedUser.userID)/user.json")
         let uploadTaskJson = PlaceServices.shared.uploadData(reference: jsonRef, dataToUpload: jsonData!, metadataContentType: "json")
         print (uploadTaskJson.debugDescription)
-  
         //Go back to previous view
         performSegue(withIdentifier: "UnwindGoDetail", sender: place)
         }
@@ -268,8 +256,7 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     //Go back to previous screen
     @IBAction func cancelEdit(_ sender: Any) {
-        //Go back to previous view
-        performSegue(withIdentifier: "UnwindGoDetail", sender: place)
+        self.dismiss(animated: false, completion: nil)
     }
     
     @IBAction func goFindCoordinates(_ sender: Any) {
@@ -367,6 +354,10 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 dc.place = sender as? Place
             }
         }
+        if segue.identifier == "ShowTableViewFromEdit" {
+            /* let tvc = segue.destination as? TableViewController
+            tvc!.places = sender as? [Place]*/
+        }
         //Concatenate identifining words "LookingForCoordinates" to place.stringImage
         //Will remove them at MapViewController before sending place back
         if segue.identifier == "PickUpCoordinates"{
@@ -389,7 +380,7 @@ extension EditController {
 }
 
 extension UIImage {
-    
+    //Resize image in order to upload it at Firebase Storage
     func resized(withPercentage percentage: CGFloat) -> UIImage? {
         let canvasSize = CGSize(width: size.width * percentage, height: size.height * percentage)
         UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
@@ -397,7 +388,7 @@ extension UIImage {
         draw(in: CGRect(origin: .zero, size: canvasSize))
         return UIGraphicsGetImageFromCurrentImageContext()
     }
-    
+    //Limit size to 1MB
     func resizedTo1MB() -> UIImage? {
         guard let imageData = self.pngData() else { return nil }
         
@@ -412,7 +403,6 @@ extension UIImage {
             resizingImage = resizedImage
             imageSizeKB = Double(imageData.count) / 1000.0 // ! Or devide for 1024 if you need KB but not kB
         }
-        
         return resizingImage
     }
 }

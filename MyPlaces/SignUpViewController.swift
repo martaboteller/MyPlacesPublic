@@ -172,6 +172,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    //Go back to Log in view
     @IBAction func backLogIn(_ sender: Any) {
         let vc = self.storyboard?.instantiateInitialViewController()
         self.present(vc!, animated: false, completion: nil)

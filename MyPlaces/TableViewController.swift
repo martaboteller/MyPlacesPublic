@@ -48,7 +48,6 @@ class TableViewController: UITableViewController {
             for pl in places {
                 self.manager.append(pl)
             }
-            print(places.count)
         }
        
         // Fill and format dropdown menu with a custom cell (MyCell)
@@ -71,7 +70,6 @@ class TableViewController: UITableViewController {
         //Show logo instead of application name
         self.navigationItem.titleView = UIImageView(image: UIImage(named: "appLogo.png"))
         self.navigationItem.titleView?.tintColor = UIColor.white
-        
        
     }
   
@@ -80,13 +78,13 @@ class TableViewController: UITableViewController {
     @IBAction func displayDropDown(_ sender: Any) {
         dropDown.show()
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
-            print ("First element is: \(self.logedUser.name)")
             if index == 1 {
                 do {
                     try Auth.auth().signOut()
                     let places = PlaceManager.shared.returnSaved()
                     for p in places {
-                        PlaceManager.shared.remove(p) //remove places befor login out
+                        PlaceManager.shared.remove(p)
+                        //remove places before login out
                     }
                 } catch let error as NSError {
                     print(error.localizedDescription)
@@ -173,7 +171,6 @@ class TableViewController: UITableViewController {
             }
         }
     }
-    
    
 }
 

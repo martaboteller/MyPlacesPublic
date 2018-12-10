@@ -101,10 +101,7 @@ class Place: NSObject, Codable {
         let type = PlaceManager.shared.placeType(stringType)
         
         //We only need to store stringImage at Json
-        //Will retrieve imageData from proper path
-        /*let docsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let image = docsPath.appendingPathComponent(stringImage)
-        let data = UIImage(contentsOfFile: image.path)?.pngData()*/
+       //Correct image will be assigned before launching TableViewController
         let image = UIImage(named:"emptyImage")
         let data = image?.pngData()
         

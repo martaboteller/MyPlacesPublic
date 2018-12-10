@@ -12,6 +12,7 @@ import Firebase
 
 class User {
     
+    //User will be treated as Guest if not loged in 
     var name = "Guest"
     var surname = "Guest"
     var userID =  ""

@@ -2,7 +2,7 @@
 //  AuthViewController.swift
 //  MyPlaces
 //
-//  Created by Laura Llunell on 24/11/18.
+//  Created by Marta Boteller on 24/11/18.
 //  Copyright © 2018 Marta Boteller. All rights reserved.
 //
 
@@ -54,8 +54,6 @@ class AuthViewController: UIViewController {
         
         //Listen for events related to Firebase Authentication
         NotificationCenter.default.addObserver(self, selector: #selector(onNotification(notification:)), name: AuthViewController.msgFromLogIn, object: nil)
-        
-        
     }
     
     func hideKeyboardWhenTappedAround() {
@@ -127,7 +125,6 @@ class AuthViewController: UIViewController {
             }
         }
     }
-    
     
     override func prepare(for segue: UIStoryboardSegue , sender: Any?) {
         if segue.identifier == "AccessApp" {
