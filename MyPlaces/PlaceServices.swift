@@ -65,7 +65,6 @@ class PlaceServices {
                     var counter: Int = 0
                     for place in placesArray{
                         let imageRef = Storage.storage().reference(withPath: "demo/\(place.stringImage)")
-                        print(imageRef)
                         imageRef.getData(maxSize: (1 * 1024 * 1024)) { (data1, error1) in
                             if let _error1 = error1{
                                 print(_error1)
@@ -105,7 +104,6 @@ class PlaceServices {
                     if numImages != 0 {
                         for place in placesArray {
                             let imageRef2 = Storage.storage().reference(withPath: "users/\(userID)/\(place.stringImage)")
-                            print(imageRef2)
                             imageRef2.getData(maxSize: (1 * 1024 * 1024)) { (imgData, errorImg) in
                                 if let _errorImg = errorImg{
                                     print(_errorImg)
