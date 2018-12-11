@@ -256,7 +256,7 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     //Go back to previous screen
     @IBAction func cancelEdit(_ sender: Any) {
-        self.dismiss(animated: false, completion: nil)
+        performSegue(withIdentifier: "ShowTableViewFromEdit", sender: nil)
     }
     
     @IBAction func goFindCoordinates(_ sender: Any) {

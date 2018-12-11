@@ -82,8 +82,6 @@ class DetailController: UIViewController {
     
     //Go back to TableViewController
     @IBAction func goBack(_ sender: Any) {
-        let arrayPlaces = PlaceManager.shared.returnSaved()
-        print("Update places to: \(arrayPlaces.count)")
         performSegue(withIdentifier: "ShowTableView", sender: nil)
     }
     
