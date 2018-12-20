@@ -14,7 +14,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var logInButtonSignUp: UIButton!{
         didSet{
-            logInButtonSignUp.titleLabel!.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
+            logInButtonSignUp.titleLabel!.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 15)
         }
     }
     

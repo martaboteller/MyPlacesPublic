@@ -12,12 +12,13 @@ class ForgottenPassController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var logInButton: UIButton!{
         didSet{
-            logInButton.titleLabel!.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
+            logInButton.titleLabel!.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 15)
+           
         }
     }
     @IBOutlet weak var pleaseMsgLabel: UILabel!{
         didSet{
-            pleaseMsgLabel.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 20)
+            pleaseMsgLabel.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 16)
         }
     }
     @IBOutlet weak var recoverEmailText: UITextField!{
