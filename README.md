@@ -38,8 +38,8 @@ Please find below the screen views designed for this project:
 
  <div id="banner">
     <div class="inline-block">
-        <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/1.png?raw=true" width="100" height="200" title="First Screen" hspace="10">
-      <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/2.png?raw=true" width="100" height="200" title="Table Screen">
+        <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/1.png?raw=true" width="100" height="200" title="First Screen">
+      <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/2.png?raw=true" width="100" height="200" title="Table Screen" hspace="5">
       <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/3.png?raw=true" width="100" height="200" title="Map Screen" hspace="5">
 <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/4.png?raw=true" width="100" height="200" title="Detail Screen" hspace="5">
 <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/5.png?raw=true" width="100" height="200" title="Edit Screen" hspace="5">
@@ -47,11 +47,41 @@ Please find below the screen views designed for this project:
 <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/8.png?raw=true" width="100" height="200" title="Forgotten Password Screen">
     </div>
 </div>
+&nbsp;
 
-### 
+### Project Deliveries (PLA 1 - 4)
+
+This project has been released in 4 deliveries identified as PLA 1, PLA 2, PLA 3 and PLA 4.
+
+<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/pla1234.png?raw=true" width="600" height="300" title="Forgotten Password Screen">
+
+#### Pla 1
+First contact with XCode and design of an app skeleton.
+#### Pla 2
+Graphical interface design. 
+#### Pla 3
+Learning to use JSON. Maps. 
+#### Pla 4
+Including CocoaPods (Firebase, Google Maps). 
+
+ <div id="banner">
+    <div class="inline-block">
+<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/interface.png?raw=true" width="400" height="200" title="Forgotten Password Screen">
+<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/icons.png?raw=true" width="400" height="200" title="Forgotten Password Screen" hspace="30">
+   </div>
+</div>
+
+&nbsp;
+
+### App Flow
+
+
+
+Firebase has been used as a backend connection. Only registered users (not guests) can save, edit and remove a place.
+
 
 ```
-Give examples
+   func downloadDemoData(success:@escaping (_ arrayPlaces: [Place])->(),failure:@escaping (_ error:Error)->()){
 ```
 
 
