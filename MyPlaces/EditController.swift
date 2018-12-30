@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import Firebase
 
-class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UITextFieldDelegate {
+class EditController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -37,7 +37,7 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             placeDescription.textContainer.lineBreakMode = .byWordWrapping
         }
     }
-    @IBOutlet weak var imgEdit: UIImageView!
+    
     @IBOutlet weak var editTitleBar: UINavigationItem!{
         didSet{
             editTitleBar.titleView =  UIImageView(image: UIImage(named: "appLogo.png"))
@@ -56,6 +56,7 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
              selectImg.tintColor = UIColor.white
         }
     }
+    @IBOutlet weak var imgEdit: UIImageView!
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var saveEdit: UIBarButtonItem!
     @IBOutlet weak var cancelEdit: UIBarButtonItem!
@@ -273,33 +274,6 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
     }
     
-    //Function that returns the number of columns of picker place type
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    //Function that returns the number of rows of the picker place type
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int{
-        return pickerData.count
-    }
-    
-    //Function that returns the row and column (component) of the selected picker type place
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row]
-    }
-    
-    //Function that returns an edited pickerLabel for the type of place
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        var pickerLabel: UILabel? = (view as? UILabel)
-        if pickerLabel == nil {
-            pickerLabel = UILabel()
-            pickerLabel?.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
-            pickerLabel?.textAlignment = .center
-        }
-        pickerLabel?.text = pickerData [row]
-        return pickerLabel!
-    }
-    
     //Function that limits the number of characters inside place name textfield
     func maxLength (textFieldName: UITextField, max: Int){
         let length = textFieldName.text?.count
@@ -366,13 +340,44 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
 }
 
-extension EditController {
+extension EditController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    //Function that controlls the selection of images
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]){
        
         if let image = info [UIImagePickerController.InfoKey.originalImage] as? UIImage{
             pickerImg.dismiss(animated: true, completion: nil)
             imgEdit.image = image
         }
+    }
+}
+
+extension EditController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    //Function that returns the number of columns of picker place type
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    //Function that returns the number of rows of the picker place type
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int{
+        return pickerData.count
+    }
+    
+    //Function that returns the row and column (component) of the selected picker type place
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerData[row]
+    }
+    
+    //Function that returns an edited pickerLabel for the type of place
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var pickerLabel: UILabel? = (view as? UILabel)
+        if pickerLabel == nil {
+            pickerLabel = UILabel()
+            pickerLabel?.font = UIFont(name: "AppleSDGothicNeo-Regular", size: 17)
+            pickerLabel?.textAlignment = .center
+        }
+        pickerLabel?.text = pickerData [row]
+        return pickerLabel!
     }
 }
 
