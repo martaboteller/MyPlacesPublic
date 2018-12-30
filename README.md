@@ -1,8 +1,11 @@
 
-# MyPlaces App
-
+ # MyPlaces App
+ <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/pinkIphonewithApp.png?raw=true" width="500" height="450" hspace="15"> 
+ 
 This is the final project of a course named <i>IOS Application Developer</i> carried out at the UOC university thanks to a 
 grant from the Generalitat of Catalonia and the European Union.
+
+
 
 
 ## Getting Started
@@ -28,7 +31,19 @@ More information about Firebase configuration can be found [here](https://fireba
 
 ## Deployment
 
-Please find below a screen capture of the views designed for this project:
+Please find below a screen views designed for this project:
+
+ <div id="banner">
+    <div class="inline-block">
+        <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/1.png?raw=true" width="100" height="200" title="First Screen" hspace="10">
+      <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/2.png?raw=true" width="100" height="200" title="Table Screen">
+      <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/3.png?raw=true" width="100" height="200" title="Map Screen" hspace="5">
+<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/4.png?raw=true" width="100" height="200" title="Detail Screen" hspace="5">
+<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/5.png?raw=true" width="100" height="200" title="Edit Screen" hspace="5">
+<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/7.png?raw=true" width="100" height="200" title="SignUp Screen" hspace="5">
+<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/8.png?raw=true" width="100" height="200" title="Forgotten Password Screen">
+    </div>
+</div>
 
 
 
