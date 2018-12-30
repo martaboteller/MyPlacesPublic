@@ -9,7 +9,9 @@ import UIKit
 import MapKit
 import Firebase
 
-class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
+class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UITextFieldDelegate {
+    
+    @IBOutlet weak var scrollView: UIScrollView!
     
     //Storyboard references
     @IBOutlet weak var coordinatesLabel: UILabel!{
@@ -74,14 +76,7 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //Listen for keyboard events
-        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillChange(notification:)),name: UIResponder.keyboardWillShowNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillChange(notification:)),name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillChange(notification:)),name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        
+     
         self.hideKeyboardWhenTappedAround()
         
         //Connect data
@@ -103,31 +98,6 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             stringImage = "defaultImage.png"
         }
     }
-    
-   //Manage keyboard position
-    deinit {
-        NotificationCenter.default.removeObserver(self,name: UIResponder.keyboardWillShowNotification, object: nil)
-        
-        NotificationCenter.default.removeObserver(self,name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        NotificationCenter.default.removeObserver(self,name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-    }
-    
-    func hideKeyboard(){
-        placeDescription.resignFirstResponder()
-    }
-    
-    @objc func keyboardWillChange(notification: Notification){
-        guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-            return
-        }
-        if notification.name == UIResponder.keyboardWillShowNotification ||
-            notification.name == UIResponder.keyboardWillChangeFrameNotification {
-            view.frame.origin.y = -keyboardRect.height
-        }else{
-            view.frame.origin.y = 0
-        }
-    }
   
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(EditController.dismissKeyboard))
@@ -139,14 +109,29 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         view.endEditing(true)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    //Functions that manage keyboad overlap
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField.tag {
+        case 0...1:
+            print("Do nothing")
+        default:
+            print("Do scroll")
+            scrollView.setContentOffset(CGPoint(x:0,y:100) , animated: true)
+        }
     }
     
-    //Restrict rotation
-    override open var shouldAutorotate: Bool {
-        return false
+    func textFieldDidEndEditing(_ textField: UITextField) {
+          scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField.tag == 0 {
+            placeName.becomeFirstResponder()
+        }
+        else if textField.tag == 1 {
+            placeDescription.becomeFirstResponder()
+        }
+        return true
     }
     
     // MARK: - Actions done by icons on the tab bar and view elements
@@ -177,23 +162,35 @@ class EditController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             //Only go back to TableViewController, nothing has been changed
            self.dismiss(animated: true, completion: nil)
         } else {
-            //Delete place from manager
-            MyPlaces.PlaceManager.shared.remove(retrievePlace(image: (imgEdit!.image?.pngData())!))
-          
-            //Update json at Firebase Storage
-            let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
-            let jsonData = PlaceManager.shared.jsonFrom(places: myPlacesArray)
-            let jsonRef = reference.child("users/\(logedUser.userID)/user.json")
-            let uploadTask = PlaceServices.shared.uploadData(reference: jsonRef, dataToUpload: jsonData!, metadataContentType: "json")
-            print (uploadTask.debugDescription)
-            //Delete image from Firebase Storage
-            let imgRef = reference.child("users/\(logedUser.userID)/\(stringImage)")
-            
-            //Delete image from Firebase Storage
-             PlaceServices.shared.deleteData(reference: imgRef, fileName: stringImage)
-           
-            //Go back to TableViewController view
-            performSegue(withIdentifier: "ShowTableViewFromEdit", sender: nil)
+            //Ask again for deletion
+            let alertController = UIAlertController (title: "Are you sure you want to delete the current place?", message: "", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler:
+                { action in
+                    //Delete place from manager
+                    MyPlaces.PlaceManager.shared.remove(self.retrievePlace(image: (self.imgEdit!.image?.pngData())!))
+                     
+                     //Update json at Firebase Storage
+                     let myPlacesArray:[Place] = PlaceManager.shared.returnSaved()
+                     let jsonData = PlaceManager.shared.jsonFrom(places: myPlacesArray)
+                    let jsonRef = self.reference.child("users/\(self.logedUser.userID)/user.json")
+                     let uploadTask = PlaceServices.shared.uploadData(reference: jsonRef, dataToUpload: jsonData!, metadataContentType: "json")
+                     print (uploadTask.debugDescription)
+                     //Delete image from Firebase Storage
+                    let imgRef = self.reference.child("users/\(self.logedUser.userID)/\(self.stringImage)")
+                     
+                     //Delete image from Firebase Storage
+                    PlaceServices.shared.deleteData(reference: imgRef, fileName: self.stringImage)
+                     
+                     //Go back to TableViewController view
+                     self.performSegue(withIdentifier: "ShowTableViewFromEdit", sender: nil)
+                }
+            ))
+            alertController.addAction(UIAlertAction(title: "No", style: .cancel, handler:
+                { action in
+                  self.performSegue(withIdentifier: "ShowTableViewFromEdit", sender: nil)
+                }
+            ))
+            self.present(alertController, animated: true)
             }
         }
     }

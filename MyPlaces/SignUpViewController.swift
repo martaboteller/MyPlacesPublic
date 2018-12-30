@@ -10,7 +10,9 @@ import UIKit
 import MapKit
 import Firebase
 
-class SignUpViewController: UIViewController, UITextViewDelegate {
+class SignUpViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
+    
+    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var logInButtonSignUp: UIButton!{
         didSet{
@@ -88,12 +90,7 @@ class SignUpViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        //Listen for keyboard events
-        passwordTextField.delegate = self as? UITextFieldDelegate
-        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillChange(notification:)),name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillChange(notification:)),name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillChange(notification:)),name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
         self.hideKeyboardWhenTappedAround()
         
         //Listen for events related to Firebase Authentication 
@@ -102,31 +99,9 @@ class SignUpViewController: UIViewController, UITextViewDelegate {
     
     //Manage keyboard position
     deinit {
-        NotificationCenter.default.removeObserver(self,name: UIResponder.keyboardWillShowNotification, object: nil)
-        
-        NotificationCenter.default.removeObserver(self,name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        NotificationCenter.default.removeObserver(self,name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        
         NotificationCenter.default.removeObserver(self, name: SignUpViewController.notificationName, object: nil)
     }
-    
-    func hideKeyboard(){
-        passwordTextField.resignFirstResponder()
-    }
-    
-    @objc func keyboardWillChange(notification: Notification){
-        guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-            return
-        }
-        if notification.name == UIResponder.keyboardWillShowNotification ||
-            notification.name == UIResponder.keyboardWillChangeFrameNotification {
-            view.frame.origin.y = -keyboardRect.height
-        }else{
-            view.frame.origin.y = 0
-        }
-    }
-    
+   
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
@@ -137,6 +112,37 @@ class SignUpViewController: UIViewController, UITextViewDelegate {
         view.endEditing(true)
     }
 
+    //Functions to manage keyboard overlap
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField.tag {
+        case 0...1:
+            print("Do nothing")
+        default:
+            print("Do scroll")
+            scrollView.setContentOffset(CGPoint(x:0,y:100) , animated: true)
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+          scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField.tag == 0 {
+            nameTextField.becomeFirstResponder()
+        }
+        else if textField.tag == 1 {
+            surnameTextField.becomeFirstResponder()
+        }
+        else if textField.tag == 2 {
+            emailTextField.resignFirstResponder()
+        }
+        else if textField.tag == 3 {
+            passwordTextField.resignFirstResponder()
+        }
+        return true
+    }
+    
     @objc func onNotification(notification:Notification)
     {
         let notif: String = notification.userInfo?["result"] as! String

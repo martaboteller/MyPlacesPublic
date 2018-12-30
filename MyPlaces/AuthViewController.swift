@@ -9,8 +9,10 @@
 import MapKit
 import Firebase
 
-class AuthViewController: UIViewController {
+class AuthViewController: UIViewController, UITextFieldDelegate {
    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     @IBOutlet weak var forgotPasswordButton: UIButton!{
         didSet{
             forgotPasswordButton.titleLabel!.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
@@ -68,6 +70,33 @@ class AuthViewController: UIViewController {
     
     deinit {
          NotificationCenter.default.removeObserver(self, name: AuthViewController.msgFromLogIn, object: nil)
+    }
+    
+    //Function that manages keyboard overlap
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField.tag {
+        case 0...1:
+            print("Do nothing")
+        default:
+            print("Do scroll")
+            scrollView.setContentOffset(CGPoint(x:0,y:100) , animated: true)
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+         scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField.tag == 0
+        {
+            emailTextField.becomeFirstResponder()
+        }
+        else if textField.tag == 1
+        {
+            passwordTextField.becomeFirstResponder()
+        }
+        return true
     }
     
     @objc func onNotification(notification:Notification){

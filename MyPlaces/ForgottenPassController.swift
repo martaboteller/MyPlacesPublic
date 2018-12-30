@@ -8,7 +8,9 @@
 
 import UIKit
 
-class ForgottenPassController: UIViewController, UITextViewDelegate {
+class ForgottenPassController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
+    
+    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var logInButton: UIButton!{
         didSet{
@@ -67,6 +69,21 @@ class ForgottenPassController: UIViewController, UITextViewDelegate {
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    //Manage Keyboard overlap
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField.tag {
+        case 0...1:
+            print("Do nothing")
+        default:
+            print("Do Scroll")
+            scrollView.setContentOffset(CGPoint(x:0,y:100) , animated: true)
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     }
     
     @objc func onNotification(notification:Notification)
