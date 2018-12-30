@@ -26,11 +26,11 @@ More information about Firebase configuration can be found [here](https://fireba
 * pod 'Crashlytics', '~> 3.10.7'
 
 
-
-
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+Please find below a screen capture of the views designed for this project:
+
+
 
 ```
 Give examples
