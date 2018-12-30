@@ -64,10 +64,12 @@ Learning to use JSON. Maps.
 #### Pla 4
 Including CocoaPods (Firebase, Google Maps). 
 
+&nbsp;
+
  <div id="banner">
     <div class="inline-block">
-<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/interface.png?raw=true" width="400" height="200" title="Forgotten Password Screen">
-<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/icons.png?raw=true" width="400" height="200" title="Forgotten Password Screen" hspace="30">
+<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/interface.png?raw=true" width="400" height="200" title="Interface">
+<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/icons.png?raw=true" width="400" height="200" title="Icons" hspace="30">
    </div>
 </div>
 
@@ -75,7 +77,7 @@ Including CocoaPods (Firebase, Google Maps).
 
 ### App Flow
 
-
+<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/flowApp.png?raw=true" width="400" height="200" title="Accessing the App">
 
 Firebase has been used as a backend connection. Only registered users (not guests) can save, edit and remove a place.
 
