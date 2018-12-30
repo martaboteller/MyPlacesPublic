@@ -1,12 +1,15 @@
-
- # MyPlaces App
- <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/pinkIphonewithApp.png?raw=true" width="500" height="450" hspace="15"> 
+# MyPlaces App
+ <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/pinkIphonewithApp.png?raw=true" width="500" height="450"> 
  
 This is the final project of a course named <i>IOS Application Developer</i> carried out at the UOC university thanks to a 
 grant from the Generalitat of Catalonia and the European Union.
 
-
-
+<div id="banner">
+    <div class="inline-block">
+ <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/PQTM.png?raw=true" width="100" height="50" > 
+  <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/UOC.png?raw=true" width="50" height="50" hspace="30"> 
+  </div>
+</div>
 
 ## Getting Started
 
@@ -31,7 +34,7 @@ More information about Firebase configuration can be found [here](https://fireba
 
 ## Deployment
 
-Please find below a screen views designed for this project:
+Please find below the screen views designed for this project:
 
  <div id="banner">
     <div class="inline-block">
@@ -45,7 +48,7 @@ Please find below a screen views designed for this project:
     </div>
 </div>
 
-
+### 
 
 ```
 Give examples
