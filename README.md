@@ -1,8 +1,15 @@
 # MyPlaces App
  <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/pinkIphonewithApp.png?raw=true" width="500" height="450"> 
  
-This is the final project of a course named <i>IOS Application Developer</i> carried out at the UOC university thanks to a 
+This is the final project of a course entitled <i>IOS Application Developer</i> carried out at the UOC university thanks to a 
 grant from the Generalitat of Catalonia and the European Union.
+
+The initial idea of this app has been created by the course organizers. Based on that initial idea I have created my own verion of MyPlacess app. 
+
+With this application a registered user can save preferred places and their info (name, description, type, localization and image). Places can be displayed as a table or distributed on a map. In addition, an image can be saved for each place. 
+
+An administrator view with the user's information will be added in further deliveries of this project. 
+
 
 <div id="banner">
     <div class="inline-block">
@@ -10,6 +17,8 @@ grant from the Generalitat of Catalonia and the European Union.
   <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/UOC.png?raw=true" width="50" height="50" hspace="30"> 
   </div>
 </div>
+
+&nbsp;
 
 ## Getting Started
 
@@ -28,8 +37,6 @@ More information about Firebase configuration can be found [here](https://fireba
 * pod 'Firebase/Database'
 * pod 'Firebase/Auth'
 * pod 'DropDown', '2.3.4'
-* pod 'Fabric', '~> 1.7.11'
-* pod 'Crashlytics', '~> 3.10.7'
 
 
 ## Deployment
@@ -75,17 +82,24 @@ Including CocoaPods (Firebase, Google Maps).
 
 &nbsp;
 
-### App Flow
+### Accessing the App
 
-<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/flowApp.png?raw=true" width="400" height="200" title="Accessing the App">
+Firebase has been used as a backend connection to store user's data. Two possible ways to access the app: as a registered user and as a guest. But only registered users can save, edit and remove places.
 
-Firebase has been used as a backend connection. Only registered users (not guests) can save, edit and remove a place.
+On the image below, a registered user can access MyPlaces app (center), a new registration can be done (left) and a lost password can be retreived (right).
+
+<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/flowApp.png" width="350" height="350" title="Accessing the App" hspace="50">
+
+All functions related to Firebase will be found at file <i>PlaceServices.swift</i>.
 
 
-```
-   func downloadDemoData(success:@escaping (_ arrayPlaces: [Place])->(),failure:@escaping (_ error:Error)->()){
-```
 
+### Result
+
+
+Please feel free to send me an email should you need further information.
+
+<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/blackIphoneTable.png?raw=true" width="550" height="400" title="Icons" hspace="30">
 
 ## Built With
 
@@ -104,5 +118,5 @@ First version of MyPlaces App finished on Dec 2018.
 
 ## Acknowledgments
 
-This could not have been done without the help of my teacher [Albert Mata](https://github.com/almata/).
+This could not have been done without the help of my [UOC teacher](https://github.com/almata).
 
