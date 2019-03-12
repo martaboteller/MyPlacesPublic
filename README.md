@@ -1,5 +1,5 @@
 # MyPlaces App
- <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/pinkIphonewithApp.png?raw=true" width="500" height="450"> 
+ <img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlaces/imagesForReadme/pinkIphonewithApp.png?raw=true" width="500" height="450">
  
 This is the final project of a course entitled <i>IOS Application Developer</i> carried out at the UOC university thanks to a 
 grant from the Generalitat of Catalonia and the European Union.
@@ -13,8 +13,8 @@ An administrator view with the user's information will be added in further deliv
 
 <div id="banner">
     <div class="inline-block">
- <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/PQTM.png?raw=true" width="100" height="50" > 
-  <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/UOC.png?raw=true" width="50" height="50" hspace="30"> 
+ <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlacesPublic/imagesForReadme/PQTM.png?raw=true" width="100" height="50" > 
+  <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlacesPublic/imagesForReadme/UOC.png?raw=true" width="50" height="50" hspace="30"> 
   </div>
 </div>
 
@@ -45,13 +45,13 @@ Please find below the screen views designed for this project:
 
  <div id="banner">
     <div class="inline-block">
-        <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/1.png?raw=true" width="100" height="200" title="First Screen">
-      <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/2.png?raw=true" width="100" height="200" title="Table Screen" hspace="5">
-      <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/3.png?raw=true" width="100" height="200" title="Map Screen" hspace="5">
-<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/4.png?raw=true" width="100" height="200" title="Detail Screen" hspace="5">
-<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/5.png?raw=true" width="100" height="200" title="Edit Screen" hspace="5">
-<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/7.png?raw=true" width="100" height="200" title="SignUp Screen" hspace="5">
-<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/8.png?raw=true" width="100" height="200" title="Forgotten Password Screen">
+        <img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlaces/imagesForReadme/1.png?raw=true" width="100" height="200" title="First Screen">
+      <img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlaces/imagesForReadme/2.png?raw=true" width="100" height="200" title="Table Screen" hspace="5">
+      <img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlaces/imagesForReadme/3.png?raw=true" width="100" height="200" title="Map Screen" hspace="5">
+<img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlaces/imagesForReadme/4.png?raw=true" width="100" height="200" title="Detail Screen" hspace="5">
+<img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlaces/imagesForReadme/5.png?raw=true" width="100" height="200" title="Edit Screen" hspace="5">
+<img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlaces/imagesForReadme/7.png?raw=true" width="100" height="200" title="SignUp Screen" hspace="5">
+<img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlaces/imagesForReadme/8.png?raw=true" width="100" height="200" title="Forgotten Password Screen">
     </div>
 </div>
 &nbsp;
@@ -60,7 +60,7 @@ Please find below the screen views designed for this project:
 
 This project has been released in 4 deliveries identified as PLA 1, PLA 2, PLA 3 and PLA 4.
 
-<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/pla1234.png?raw=true" width="600" height="300" title="Forgotten Password Screen">
+<img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlaces/imagesForReadme/pla1234.png?raw=true" width="600" height="300" title="Forgotten Password Screen">
 
 #### Pla 1
 First contact with XCode and design of an app skeleton.
@@ -75,8 +75,8 @@ Including CocoaPods (Firebase, Google Maps).
 
  <div id="banner">
     <div class="inline-block">
-<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/interface.png?raw=true" width="400" height="200" title="Interface">
-<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/icons.png?raw=true" width="400" height="200" title="Icons" hspace="30">
+<img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlaces/imagesForReadme/interface.png?raw=true" width="400" height="200" title="Interface">
+<img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlaces/imagesForReadme/icons.png?raw=true" width="400" height="200" title="Icons" hspace="30">
    </div>
 </div>
 
@@ -88,7 +88,7 @@ Firebase has been used as a backend connection to store user's data. Two possibl
 
 On the image below, a registered user can access MyPlaces app (center), a new registration can be done (left) and a lost password can be retreived (right).
 
-<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/flowApp.png" width="350" height="350" title="Accessing the App" hspace="50">
+<img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlaces/imagesForReadme/flowApp.png" width="350" height="350" title="Accessing the App" hspace="50">
 
 All functions related to Firebase will be found at file <i>PlaceServices.swift</i>.
 
@@ -99,7 +99,7 @@ All functions related to Firebase will be found at file <i>PlaceServices.swift</
 
 Please feel free to send me an email should you need further information.
 
-<img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlaces/imagesForReadme/blackIphoneTable.png?raw=true" width="550" height="400" title="Icons" hspace="30">
+<img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlaces/imagesForReadme/blackIphoneTable.png?raw=true" width="550" height="400" title="Icons" hspace="30">
 
 ## Built With
 
