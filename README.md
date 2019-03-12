@@ -13,8 +13,8 @@ An administrator view with the user's information will be added in further deliv
 
 <div id="banner">
     <div class="inline-block">
- <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlacesPublic/imagesForReadme/PQTM.png?raw=true" width="100" height="50" > 
-  <img src="https://github.com/martaboteller/MyPlaces/blob/master/MyPlacesPublic/imagesForReadme/UOC.png?raw=true" width="50" height="50" hspace="30"> 
+ <img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlacesPublic/imagesForReadme/PQTM.png?raw=true" width="100" height="50" > 
+  <img src="https://github.com/martaboteller/MyPlacesPublic/blob/master/MyPlacesPublic/imagesForReadme/UOC.png?raw=true" width="50" height="50" hspace="30"> 
   </div>
 </div>
 
